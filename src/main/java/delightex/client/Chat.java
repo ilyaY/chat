@@ -1,12 +1,8 @@
 package delightex.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import delightex.client.rpc.ChatService;
-import delightex.client.rpc.ChatServiceAsync;
-
-import java.util.Set;
+import com.google.gwt.user.client.ui.RootPanel;
+import delightex.client.ui.MainPanel;
 
 public class Chat implements EntryPoint {
   public static final String ROOM_KEY = "room";
@@ -14,17 +10,6 @@ public class Chat implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
-    ChatServiceAsync service = ChatService.App.getInstance();
-    service.getRooms(new AsyncCallback<Set<String>>() {
-      @Override
-      public void onFailure(Throwable caught) {
-
-      }
-
-      @Override
-      public void onSuccess(Set<String> result) {
-        Window.alert("Hello!" + result.toString());
-      }
-    });
+    RootPanel.get().add(new MainPanel());
   }
 }

@@ -6,6 +6,7 @@ public class Room {
 
   public Room(String name) {
     myName = name;
+    activate();
   }
 
   public void activate() {

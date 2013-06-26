@@ -1,0 +1,12 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <g:VerticalPanel>
+      <g:VerticalPanel ui:field="chatList"/>
+      <g:HorizontalPanel>
+        <g:Button text="New Chat" ui:field="newButton"/>
+        <g:Button text="Refresh" ui:field="refreshButton"/>
+      </g:HorizontalPanel>
+    </g:VerticalPanel>
+  </g:HTMLPanel>
+</ui:UiBinder>
