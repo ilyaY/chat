@@ -20,14 +20,16 @@ public class ChatWebSocketServlet extends WebSocketServlet {
   @Override
   public WebSocket doWebSocketConnect(HttpServletRequest request, String protocol) {
     User user = (User) request.getSession().getAttribute(USER_KEY);
-    final String room = request.getParameter(Chat.ROOM_KEY);
+    final String roomName = request.getParameter(Chat.ROOM_KEY);
     String lastMessage = request.getParameter(Chat.STAMP_KEY);
 
     long lastStamp = lastMessage == null || lastMessage.isEmpty() ? 0 : Long.parseLong(lastMessage);
     if (user == null) return null;
 
     final Model model = (Model) getServletContext().getAttribute(MODEL_KEY);
-    return new MyWebSocket(model.getRoom(room), lastStamp, user);
+    RoomContainer room = model.getRoom(roomName);
+    if (room == null) return null;
+    return new MyWebSocket(room, lastStamp, user);
   }
 
   @Override
