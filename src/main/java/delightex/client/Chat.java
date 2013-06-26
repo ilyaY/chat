@@ -7,7 +7,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.Set;
 
 public class Chat implements EntryPoint {
-  public static final String USER_KEY = "user";
   public static final String ROOM_KEY = "room";
   public static final String STAMP_KEY = "stamp";
 

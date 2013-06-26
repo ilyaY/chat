@@ -1,15 +1,13 @@
 package delightex.client.model;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 public class User {
   private String myName;
 
-  public String getName() {
-    return myName;
+  public User(String name) {
+    myName = name;
   }
 
-  public void setName(String name) {
-    myName = name;
+  public String getName() {
+    return myName;
   }
 }

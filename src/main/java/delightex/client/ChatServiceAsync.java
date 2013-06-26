@@ -6,4 +6,5 @@ import java.util.Set;
 
 public interface ChatServiceAsync {
   void getRooms(AsyncCallback<Set<String>> callback);
+  void login(String name, AsyncCallback<Void> callback);
 }

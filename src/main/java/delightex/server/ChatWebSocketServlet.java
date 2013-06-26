@@ -14,21 +14,18 @@ import java.util.List;
 
 public class ChatWebSocketServlet extends WebSocketServlet {
   public static final String MODEL_KEY = "model";
-
+  public static final String USER_KEY = "user";
 
   @Override
   public WebSocket doWebSocketConnect(HttpServletRequest request, String protocol) {
-    User user = (User) request.getSession().getAttribute(Chat.USER_KEY);
-    if (user == null) return null;
+    User user = (User) request.getSession().getAttribute(USER_KEY);
     final String room = request.getParameter(Chat.ROOM_KEY);
     String lastMessage = request.getParameter(Chat.STAMP_KEY);
-
-
-
     long lastStamp = lastMessage == null || lastMessage.isEmpty() ? 0 : Long.parseLong(lastMessage);
+    if (user == null) return null;
 
     final Model model = (Model) getServletContext().getAttribute(MODEL_KEY);
-    return new MyWebSocket(null, lastStamp, user);
+    return new MyWebSocket(model.getRoom(room), lastStamp, user);
   }
 
   @Override
