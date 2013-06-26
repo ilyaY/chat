@@ -6,9 +6,23 @@
          version="2.5">
 
   <servlet>
+    <servlet-name>ChatWebSocketServlet</servlet-name>
+    <servlet-class>delightex.server.ChatWebSocketServlet</servlet-class>
+    <init-param>
+      <param-name>maxTextMessageSize</param-name>
+      <param-value>200000</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
     <servlet-name>delightex.Chat ChatService</servlet-name>
     <servlet-class>delightex.server.ChatServiceImpl</servlet-class>
   </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ChatWebSocketServlet</servlet-name>
+    <url-pattern>/wsdx</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>delightex.Chat ChatService</servlet-name>
     <url-pattern>/delightex.Chat/ChatService</url-pattern>
