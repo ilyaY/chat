@@ -6,9 +6,13 @@ public class Message {
   private final String myText;
 
   public Message(User user, String text) {
+    this(user, text, System.currentTimeMillis());
+  }
+
+  public Message(User user, String text, long stamp) {
     myUser = user;
     myText = text;
-    myStamp = System.currentTimeMillis();
+    myStamp = stamp;
   }
 
   public User getUser() {

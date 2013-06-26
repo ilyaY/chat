@@ -2,6 +2,7 @@ package delightex.server;
 
 import delightex.client.Chat;
 import delightex.client.model.Message;
+import delightex.client.model.MessageSerializer;
 import delightex.client.model.User;
 import delightex.server.model.Model;
 import delightex.server.model.RoomContainer;
@@ -21,6 +22,7 @@ public class ChatWebSocketServlet extends WebSocketServlet {
     User user = (User) request.getSession().getAttribute(USER_KEY);
     final String room = request.getParameter(Chat.ROOM_KEY);
     String lastMessage = request.getParameter(Chat.STAMP_KEY);
+
     long lastStamp = lastMessage == null || lastMessage.isEmpty() ? 0 : Long.parseLong(lastMessage);
     if (user == null) return null;
 
@@ -34,11 +36,12 @@ public class ChatWebSocketServlet extends WebSocketServlet {
     getServletContext().setAttribute(MODEL_KEY, model);
   }
   
-  class MyWebSocket implements WebSocket.OnTextMessage, RoomPort {
-    RoomContainer myContainer;
-    Connection myConnection;
-    long myStamp;
-    User myUser;
+  private static class MyWebSocket implements WebSocket.OnTextMessage, RoomPort {
+    private final RoomContainer myContainer;
+    private final long myStamp;
+    private final User myUser;
+
+    private Connection myConnection;
 
     MyWebSocket(RoomContainer container, long stamp, User user) {
       myContainer = container;
@@ -69,9 +72,8 @@ public class ChatWebSocketServlet extends WebSocketServlet {
 
     @Override
     public void send(Message message) {
-      //serialize
       try {
-        myConnection.sendMessage(message.getText());
+        myConnection.sendMessage(MessageSerializer.toJson(message));
       } catch (Throwable t) {
         connectionBroken();
       }
