@@ -21,4 +21,10 @@ public class ChatServiceImpl extends RemoteServiceServlet implements ChatService
     User user = new User(name);
     getThreadLocalRequest().getSession().setAttribute(ChatWebSocketServlet.USER_KEY, user);
   }
+
+  @Override
+  public void addRoom(String name) {
+    Model model = (Model) getServletContext().getAttribute(ChatWebSocketServlet.MODEL_KEY);
+    model.addRoom(name);
+  }
 }
