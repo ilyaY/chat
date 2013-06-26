@@ -5,10 +5,12 @@
     >
 <module rename-to="delightex.Chat">
   <inherits name="com.google.gwt.user.User"/>
+  <inherits name="com.google.gwt.json.JSON"/>
   <inherits name="com.google.gwt.user.theme.standard.Standard"/>
   <inherits name="com.google.gwt.resources.Resources"/>
 
   <entry-point class="delightex.client.Chat"/>
+  <servlet path="/ChatService" class="delightex.server.ChatServiceImpl"/>
   <!--<servlet path="/DelightexService" class="delightex.server.rpc.DelightexServiceImpl"/>-->
 
 </module>

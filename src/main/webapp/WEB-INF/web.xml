@@ -5,4 +5,12 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
 
+  <servlet>
+    <servlet-name>delightex.Chat ChatService</servlet-name>
+    <servlet-class>delightex.server.ChatServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>delightex.Chat ChatService</servlet-name>
+    <url-pattern>/delightex.Chat/ChatService</url-pattern>
+  </servlet-mapping>
 </web-app>
