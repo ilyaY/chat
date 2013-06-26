@@ -1,7 +1,5 @@
 package delightex.client.model;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 public class Message {
   private final User myUser;
   private final long myStamp;

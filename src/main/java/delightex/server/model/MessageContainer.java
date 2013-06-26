@@ -10,7 +10,7 @@ public class MessageContainer {
 
   private final List<Message> myContainer = new ArrayList<Message>();
 
-  public void addMessage(Message message) {
+  void addMessage(Message message) {
     while (myContainer.size() >= MAX_SIZE) {
       myContainer.remove(0);
     }
