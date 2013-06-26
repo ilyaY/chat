@@ -1,5 +1,6 @@
 package delightex.server;
 
+import delightex.client.Chat;
 import delightex.client.model.Message;
 import delightex.client.model.User;
 import delightex.server.model.Model;
@@ -13,14 +14,14 @@ import java.util.List;
 
 public class ChatWebSocketServlet extends WebSocketServlet {
   public static final String MODEL_KEY = "model";
-  public static final String USER_KEY = "user";
+
 
   @Override
   public WebSocket doWebSocketConnect(HttpServletRequest request, String protocol) {
-    User user = (User) request.getSession().getAttribute(USER_KEY);
+    User user = (User) request.getSession().getAttribute(Chat.USER_KEY);
     if (user == null) return null;
-    final String room = request.getParameter("room");
-    String lastMessage = request.getParameter("stamp");
+    final String room = request.getParameter(Chat.ROOM_KEY);
+    String lastMessage = request.getParameter(Chat.STAMP_KEY);
 
 
 

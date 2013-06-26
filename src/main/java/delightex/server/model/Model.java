@@ -8,13 +8,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class Model {
-  private Map<String, Room> myRooms;
+  private Map<String, RoomContainer> myRooms;
 
   public void addRoom(Room room) {
     if (myRooms == null) {
-      myRooms = new HashMap<String, Room>();
+      myRooms = new HashMap<String, RoomContainer>();
     }
-    myRooms.put(room.getName(), room);
+    myRooms.put(room.getName(), new RoomContainer(room));
   }
 
   public void removeRoom(String name) {
@@ -24,7 +24,7 @@ public class Model {
     }
   }
 
-  public Room getRoom(String name) {
+  public RoomContainer getRoom(String name) {
     if (myRooms == null) return null;
     return myRooms.get(name);
   }
