@@ -1,4 +1,4 @@
-package delightex.client;
+package delightex.client.rpc;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

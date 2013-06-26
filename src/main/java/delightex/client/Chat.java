@@ -3,6 +3,8 @@ package delightex.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import delightex.client.rpc.ChatService;
+import delightex.client.rpc.ChatServiceAsync;
 
 import java.util.Set;
 

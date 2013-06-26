@@ -1,8 +1,7 @@
 package delightex.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import delightex.client.Chat;
-import delightex.client.ChatService;
+import delightex.client.rpc.ChatService;
 import delightex.client.model.User;
 import delightex.server.model.Model;
 
