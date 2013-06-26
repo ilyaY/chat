@@ -10,7 +10,7 @@ public class MessageContainer {
 
   private final List<Message> myContainer = new ArrayList<Message>();
 
-  void addMessage(Message message) {
+  synchronized void addMessage(Message message) {
     while (myContainer.size() >= MAX_SIZE) {
       myContainer.remove(0);
     }
@@ -18,7 +18,7 @@ public class MessageContainer {
     myContainer.add(message);
   }
 
-  public List<Message> getMessages(long timestamp) {
+  public synchronized List<Message> getMessages(long timestamp) {
     List<Message> result = new ArrayList<Message>();
     for (Message message: myContainer) {
       if (message.getStamp() > timestamp) {

@@ -2,7 +2,7 @@ package delightex.client.model;
 
 public class Room {
   private final String myName;
-  private long myLastActiveStamp;
+  private volatile long myLastActiveStamp;
 
   public Room(String name) {
     myName = name;
