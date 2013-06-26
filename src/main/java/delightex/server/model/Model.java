@@ -29,7 +29,9 @@ public class Model {
   }
 
   public Set<String> getRoomNames() {
-    return getRooms().keySet();
+    Set<String> result = new HashSet<String>();
+    result.addAll(getRooms().keySet());
+    return result;
   }
 }
 
