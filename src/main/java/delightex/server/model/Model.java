@@ -2,36 +2,34 @@ package delightex.server.model;
 
 import delightex.client.model.Room;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Model {
-  private Map<String, RoomContainer> myRooms;
+  private final static long MAX_LIVE_TIME = 1000 * 60 * 30; //30 mins
 
-  public void addRoom(Room room) {
-    if (myRooms == null) {
-      myRooms = new HashMap<String, RoomContainer>();
+  private Map<String, RoomContainer> myRooms = new HashMap<String, RoomContainer>();
+
+  private Map<String, RoomContainer> getRooms() {
+    for (RoomContainer roomContainer : new ArrayList<RoomContainer>(myRooms.values())) {
+      Room room = roomContainer.getRoom();
+      if (room.getStamp() < System.currentTimeMillis() - MAX_LIVE_TIME) {
+        myRooms.remove(room.getName());
+      }
     }
-    myRooms.put(room.getName(), new RoomContainer(room));
+    return myRooms;
   }
 
-  public void removeRoom(String name) {
-    myRooms.remove(name);
-    if (myRooms.size() == 0) {
-      myRooms = null;
-    }
+  public void addRoom(String name) {
+    Room room = new Room(name);
+    getRooms().put(name, new RoomContainer(room));
   }
 
   public RoomContainer getRoom(String name) {
-    if (myRooms == null) return null;
-    return myRooms.get(name);
+    return getRooms().get(name);
   }
 
   public Set<String> getRoomNames() {
-    if (myRooms == null) return Collections.emptySet();
-    return myRooms.keySet();
+    return getRooms().keySet();
   }
 }
 

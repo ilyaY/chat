@@ -11,6 +11,7 @@ public class RoomContainer {
   private Room myRoom;
   private MessageContainer myMessageContainer = new MessageContainer();
   private List<RoomPort> myPorts = new ArrayList<RoomPort>();
+  private Room room;
 
   public RoomContainer(Room room) {
     myRoom = room;
@@ -36,5 +37,9 @@ public class RoomContainer {
         port.send(m);
       }
     }
+  }
+
+  public Room getRoom() {
+    return room;
   }
 }
