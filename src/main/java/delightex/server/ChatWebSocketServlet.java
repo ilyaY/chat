@@ -41,7 +41,7 @@ public class ChatWebSocketServlet extends WebSocketServlet {
     private final long myStamp;
     private final User myUser;
 
-    private Connection myConnection;
+    private volatile Connection myConnection;
 
     MyWebSocket(RoomContainer container, long stamp, User user) {
       myContainer = container;
