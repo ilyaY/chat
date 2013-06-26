@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomContainer {
-  private Room myRoom;
-  private MessageContainer myMessageContainer = new MessageContainer();
-  private List<RoomPort> myPorts = new ArrayList<RoomPort>();
-  private Room room;
+  private final Room myRoom;
+  private final MessageContainer myMessageContainer = new MessageContainer();
+  private final List<RoomPort> myPorts = new ArrayList<RoomPort>();
 
   public RoomContainer(Room room) {
     myRoom = room;
@@ -40,6 +39,6 @@ public class RoomContainer {
   }
 
   public Room getRoom() {
-    return room;
+    return myRoom;
   }
 }
