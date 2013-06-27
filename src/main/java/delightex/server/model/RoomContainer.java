@@ -2,6 +2,7 @@ package delightex.server.model;
 
 import delightex.client.model.Message;
 import delightex.client.model.Room;
+import delightex.client.model.User;
 import delightex.server.RoomPort;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -13,6 +14,7 @@ public class RoomContainer {
 
   public RoomContainer(Room room) {
     myRoom = room;
+    myMessageContainer.addMessage(new Message(new User("admin"), "Hello! You are in a chat!"));
   }
 
   public MessageContainer getMessageContainer() {
@@ -31,9 +33,7 @@ public class RoomContainer {
     myRoom.activate();
     myMessageContainer.addMessage(m);
     for (RoomPort port : myPorts) {
-      if (!port.getUser().equals(m.getUser())) {
-        port.send(m);
-      }
+      port.send(m);
     }
   }
 

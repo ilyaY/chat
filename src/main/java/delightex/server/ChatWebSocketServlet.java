@@ -34,6 +34,7 @@ public class ChatWebSocketServlet extends WebSocketServlet {
 
   @Override
   public void init() throws ServletException {
+    super.init();
     Model model = new Model();
     getServletContext().setAttribute(MODEL_KEY, model);
   }

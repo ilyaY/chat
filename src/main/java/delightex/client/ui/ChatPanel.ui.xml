@@ -3,6 +3,11 @@
   <g:HTMLPanel>
     <g:VerticalPanel>
       <g:Label ui:field="helloText" height="30"/>
+      <g:HorizontalPanel>
+        <g:TextBox width="200px" ui:field="messageBox"/>
+        <g:Button text="Send" ui:field="sendButton" enabled="false"/>
+      </g:HorizontalPanel>
+      <g:VerticalPanel ui:field="messagePanel"/>
     </g:VerticalPanel>
   </g:HTMLPanel>
 </ui:UiBinder>

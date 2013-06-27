@@ -21,7 +21,7 @@
 
   <servlet-mapping>
     <servlet-name>ChatWebSocketServlet</servlet-name>
-    <url-pattern>/wsdx</url-pattern>
+    <url-pattern>/wschat</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>delightex.Chat ChatService</servlet-name>

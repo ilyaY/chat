@@ -1,6 +1,5 @@
 package delightex.client.ui;
 
-import com.github.gwtbootstrap.client.ui.NavLink;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -77,7 +76,7 @@ public class MainPanel extends SimplePanel {
       public void onSuccess(Set<String> result) {
         chatList.clear();
         for (final String chat : result) {
-          NavLink link = new NavLink(chat);
+          Anchor link = new Anchor(chat);
           link.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
