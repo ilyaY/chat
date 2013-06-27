@@ -1,0 +1,71 @@
+body {
+    font: normal 13px "Lucida Grande", Arial, sans-serif;
+}
+
+.gwt-TextBox {
+    font: normal 13px "Lucida Grande", Arial, sans-serif;
+}
+
+.chat-userpic {
+    float: left;
+    left: 10px;
+    top: 6px;
+    width: 40px;
+}
+
+.chat-userpic img {
+    float: left;
+    height: 28px;
+    margin: 0 10px 15px 0;
+    padding: 2px;
+    width: 28px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.chat-message {
+    font-size: 13px;
+    color: #666;
+
+    border-top: 1px dashed #eeeeee;
+    padding-top: 17px;
+    margin: 20px 0px 0px 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    opacity: 1;
+    -webkit-transition: opacity 1s linear;
+    -moz-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
+    transition: opacity 1s linear;
+    visibility: visible;
+}
+
+.chat-message-sender {
+    font: normal 13px "Lucida Grande", Arial, sans-serif;
+    color: #333;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.9);
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 5px;
+    padding-bottom: 3px;
+    text-transform: capitalize;
+}
+
+.chat-message-text {
+    padding-left: 35px;
+    position: relative;
+    margin: 0;
+}
+
+.chat-message-body {
+    padding: 0 75px 0 10px;
+    white-space: pre-wrap;
+    line-height: 20px;
+    word-wrap: break-word;
+}

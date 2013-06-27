@@ -1,6 +1,7 @@
 package delightex.client.ui;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -60,6 +61,12 @@ public class ChatPanel extends SimplePanel {
       mySocket.send(text);
       messageBox.setValue(null);
     }
+    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+      @Override
+      public void execute() {
+        messageBox.setFocus(true);
+      }
+    });
   }
 
   private void connect() {
@@ -89,7 +96,26 @@ public class ChatPanel extends SimplePanel {
       protected void callOnMessage(String s) {
         Message message = fromJson(s);
         myLastStamp = message.getStamp();
-        messagePanel.insert(new Label("[" + message.getUser().getName() + "]: " + message.getText()), 0);
+        FlowPanel p1 = new FlowPanel();
+        p1.getElement().setClassName("chat-message");
+        FlowPanel headerPanel = new FlowPanel();
+        p1.add(headerPanel);
+        FlowPanel pic = new FlowPanel();
+        pic.getElement().setClassName("chat-userpic");
+        headerPanel.add(pic);
+        pic.add(new Image("img/userpic.gif"));
+        FlowPanel sender = new FlowPanel();
+        sender.getElement().setClassName("chat-message-sender");
+        headerPanel.add(sender);
+        sender.add(new Label(message.getUser().getName()));
+        FlowPanel text = new FlowPanel();
+        text.getElement().setClassName("chat-message-text");
+        p1.add(text);
+        Label label = new Label(message.getText());
+        label.getElement().addClassName("chat-message-body");
+        text.add(label);
+
+        messagePanel.insert(p1, 0);
       }
 
       @Override
