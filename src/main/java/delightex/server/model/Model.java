@@ -20,6 +20,7 @@ public class Model {
   }
 
   public void addRoom(String name) {
+    if (getRoom(name) != null) throw new IllegalStateException();
     Room room = new Room(name);
     getRooms().put(name, new RoomContainer(room));
   }

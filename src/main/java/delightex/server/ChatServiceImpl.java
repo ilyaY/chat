@@ -22,8 +22,10 @@ public class ChatServiceImpl extends RemoteServiceServlet implements ChatService
   }
 
   @Override
-  public void addRoom(String name) {
+  public String addRoom(String name) {
     Model model = (Model) getServletContext().getAttribute(ChatWebSocketServlet.MODEL_KEY);
+    if (model.getRoom(name) != null) return "Duplicate chat name";
     model.addRoom(name);
+    return null;
   }
 }

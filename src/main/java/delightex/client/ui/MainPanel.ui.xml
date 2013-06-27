@@ -2,11 +2,12 @@
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <g:HTMLPanel>
     <g:VerticalPanel>
-      <g:VerticalPanel ui:field="chatList"/>
+      <g:Label ui:field="helloText" height="30"/>
       <g:HorizontalPanel>
-        <g:Button text="New Chat" ui:field="newButton"/>
-        <g:Button text="Refresh" ui:field="refreshButton"/>
+        <g:TextBox ui:field="chatName"/>
+        <g:Button text="Create Chat" ui:field="newButton"/>
       </g:HorizontalPanel>
+      <g:VerticalPanel ui:field="chatList"/>
     </g:VerticalPanel>
   </g:HTMLPanel>
 </ui:UiBinder>

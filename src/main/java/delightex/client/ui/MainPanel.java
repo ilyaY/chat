@@ -6,11 +6,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.*;
 import delightex.client.rpc.ChatService;
 import delightex.client.rpc.ChatServiceAsync;
 
@@ -19,44 +18,50 @@ import java.util.Set;
 public class MainPanel extends SimplePanel {
   private static ChatListUiBinder ourUiBinder = GWT.create(ChatListUiBinder.class);
 
+  private Timer myTimer;
+
   @UiField
   VerticalPanel chatList;
   @UiField
   Button newButton;
   @UiField
-  Button refreshButton;
+  TextBox chatName;
+  @UiField
+  Label helloText;
 
 
-  public MainPanel() {
+  public MainPanel(String name) {
     setWidget(ourUiBinder.createAndBindUi(this));
+    helloText.setText("Hello, " + name + "! Choose some chat you want to enter!");
     final ChatServiceAsync service = ChatService.App.getInstance();
-    refreshButton.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        refreshChats();
-      }
-    });
+
     newButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
-        new InputDialog("New Chat") {
-          @Override
-          public void onOk(String value) {
-            service.addRoom(value, new AsyncCallback<Void>() {
-              @Override
-              public void onFailure(Throwable caught) {
-                throw new RuntimeException(caught);
-              }
+        final String name = chatName.getValue();
+        if (name == null || name.isEmpty()) {
+          Window.alert("Chat name cannot be empty");
+        } else {
+          service.addRoom(name, new AsyncCallback<String>() {
+            @Override
+            public void onFailure(Throwable caught) {
+              Window.alert("Cannot create new chat");
+            }
 
-              @Override
-              public void onSuccess(Void result) {
-                refreshChats();
+            @Override
+            public void onSuccess(String result) {
+              if (result != null) {
+                Window.alert(result);
+              } else {
+                enterChat(name);
               }
-            });
-          }
-        };
+            }
+          });
+        }
       }
     });
+
+    refreshChats();
   }
 
   private void refreshChats() {
@@ -69,12 +74,46 @@ public class MainPanel extends SimplePanel {
       @Override
       public void onSuccess(Set<String> result) {
         chatList.clear();
-        for (String chat : result) {
-          chatList.add(new NavLink(chat));
+        for (final String chat : result) {
+          NavLink link = new NavLink(chat);
+          link.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+              enterChat(chat);
+            }
+          });
+          chatList.add(link);
+        }
+        if (result.isEmpty()) {
+          chatList.add(new Label("There is no chat yet, create new one!"));
         }
       }
     });
+  }
 
+  @Override
+  protected void onAttach() {
+    super.onAttach();
+
+    myTimer = new Timer() {
+      @Override
+      public void run() {
+        refreshChats();
+      }
+    };
+
+    myTimer.scheduleRepeating(2000);
+  }
+
+  @Override
+  protected void onDetach() {
+    super.onDetach();
+
+    myTimer.cancel();
+  }
+
+  private void enterChat(String name) {
+    Window.alert("Entered " + name);
   }
 
   interface ChatListUiBinder extends UiBinder<HTMLPanel, MainPanel> {}

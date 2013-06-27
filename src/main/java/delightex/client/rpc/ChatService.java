@@ -19,5 +19,5 @@ public interface ChatService extends RemoteService {
 
   Set<String> getRooms();
   void login(String name);
-  void addRoom(String name);
+  String addRoom(String name);
 }

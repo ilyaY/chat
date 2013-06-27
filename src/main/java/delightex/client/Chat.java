@@ -1,8 +1,7 @@
 package delightex.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.RootPanel;
-import delightex.client.ui.MainPanel;
+import delightex.client.ui.LoginDialog;
 
 public class Chat implements EntryPoint {
   public static final String ROOM_KEY = "room";
@@ -10,6 +9,6 @@ public class Chat implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
-    RootPanel.get().add(new MainPanel());
+    new LoginDialog().center();
   }
 }
