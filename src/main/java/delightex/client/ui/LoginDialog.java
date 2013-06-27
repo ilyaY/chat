@@ -31,7 +31,7 @@ public class LoginDialog extends DialogBox {
           ChatService.App.getInstance().login(name, new AsyncCallback<Void>() {
             @Override
             public void onFailure(Throwable caught) {
-              Window.alert("Failed to enter");
+              Window.alert("Failed to log in");
             }
 
             @Override
