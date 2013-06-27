@@ -19,7 +19,7 @@ public class LoginDialog extends DialogBox {
   TextBox nameField;
 
   public LoginDialog() {
-    setText("Login dialog");
+    setText("Login");
     add(ourUiBinder.createAndBindUi(this));
     enter.addClickHandler(new ClickHandler() {
       @Override

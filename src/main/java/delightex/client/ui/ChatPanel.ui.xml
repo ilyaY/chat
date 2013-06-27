@@ -4,7 +4,7 @@
     <g:VerticalPanel>
       <g:Label ui:field="helloText" styleName="{style.welcomeLabel}"/>
       <g:HorizontalPanel spacing="3">
-        <g:TextBox width="200px" ui:field="messageBox"/>
+        <g:TextBox visibleLength="50" ui:field="messageBox" styleName="{style.textBox}"/>
         <g:Button text="Send" ui:field="sendButton" enabled="false"/>
       </g:HorizontalPanel>
       <g:VerticalPanel ui:field="messagePanel"/>
@@ -19,6 +19,10 @@
       font: normal 13px "Lucida Grande", Arial, sans-serif;
       font-weight: bold;
       padding-bottom: 10px;
+    }
+
+    .textBox {
+      font: normal 15px "Lucida Grande", Arial, sans-serif;
     }
   </ui:style>
 </ui:UiBinder>
