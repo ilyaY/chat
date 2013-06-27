@@ -29,8 +29,10 @@ public class MainPanel extends SimplePanel {
   @UiField
   Label helloText;
 
+  private final String myUserName;
 
   public MainPanel(String name) {
+    myUserName = name;
     setWidget(ourUiBinder.createAndBindUi(this));
     helloText.setText("Hello, " + name + "! Choose some chat you want to enter!");
     final ChatServiceAsync service = ChatService.App.getInstance();
@@ -113,7 +115,8 @@ public class MainPanel extends SimplePanel {
   }
 
   private void enterChat(String name) {
-    Window.alert("Entered " + name);
+    removeFromParent();
+    RootPanel.get().add(new ChatPanel(myUserName, name));
   }
 
   interface ChatListUiBinder extends UiBinder<HTMLPanel, MainPanel> {}
