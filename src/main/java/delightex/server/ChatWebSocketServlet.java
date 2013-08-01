@@ -16,10 +16,15 @@ import java.util.List;
 public class ChatWebSocketServlet extends WebSocketServlet {
   public static final String MODEL_KEY = "model";
   public static final String USER_KEY = "user";
+  public static final String USER_HACK_KEY = "hackuser";
 
   @Override
   public WebSocket doWebSocketConnect(HttpServletRequest request, String protocol) {
     User user = (User) request.getSession().getAttribute(USER_KEY);
+    if(user==null){
+        final String userName = request.getParameter(USER_HACK_KEY);
+        user = new User(userName);
+    }
     final String roomName = request.getParameter(Chat.ROOM_KEY);
     String lastMessage = request.getParameter(Chat.STAMP_KEY);
 
