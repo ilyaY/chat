@@ -26,7 +26,6 @@ public class LoginDialog extends DialogBox {
       public void onClick(ClickEvent event) {
         final String name = nameField.getValue();
         if (name == null || name.isEmpty()) {
-          Window.alert("Your name cannot be empty");
         } else {
           ChatService.App.getInstance().login(name, new AsyncCallback<Void>() {
             @Override
