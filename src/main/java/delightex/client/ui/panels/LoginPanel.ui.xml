@@ -1,0 +1,20 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'>
+  <g:HTMLPanel styleName="{style.wrapper}">
+      <b:Label text="Enter your name"/>
+      <b:TextBox ui:field="nameField"/>
+      <b:Button ui:field="enter" text="Enter chatAppController" addStyleNames="{style.right}"/>
+  </g:HTMLPanel>
+
+  <ui:style>
+    .wrapper {
+        background-color: #eee;
+        padding: 16px;
+      }
+
+    .right {
+      float: right;
+    }
+  </ui:style>
+</ui:UiBinder>

@@ -7,7 +7,7 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.*;
-import delightex.client.Chat;
+import delightex.client.ChatAppController;
 import delightex.client.WebSocket;
 import delightex.client.model.Message;
 
@@ -53,9 +53,9 @@ public class ChatPanel extends Composite {
         messageBox.addKeyPressHandler(new KeyPressHandler() {
             @Override
             public void onKeyPress(KeyPressEvent event) {
-                if (event.getCharCode() == KeyCodes.KEY_ENTER) {
-                    send();
-                }
+            if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+                send();
+            }
             }
         });
         // Window.alert("SUPER DEV MODE WORKS");
@@ -88,9 +88,9 @@ public class ChatPanel extends Composite {
 
         String webSocketUrl = baseUrl.replace("http", "ws") + "wschat";
 
-        webSocketUrl += "?" + Chat.ROOM_KEY + "=" + URL.encodeQueryString(myRoom);
+        webSocketUrl += "?" + ChatAppController.ROOM_KEY + "=" + URL.encodeQueryString(myRoom);
         if (myLastStamp != 0) {
-            webSocketUrl += "&" + Chat.STAMP_KEY + "=" + myLastStamp;
+            webSocketUrl += "&" + ChatAppController.STAMP_KEY + "=" + myLastStamp;
         }
 
         mySocket = new WebSocket(webSocketUrl) {

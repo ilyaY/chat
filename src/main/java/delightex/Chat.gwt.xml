@@ -8,8 +8,9 @@
     <inherits name="com.google.gwt.json.JSON"/>
     <inherits name="com.google.gwt.user.theme.standard.Standard"/>
     <inherits name="com.google.gwt.resources.Resources"/>
+    <inherits name="com.github.gwtbootstrap.Bootstrap" />
 
-    <entry-point class="delightex.client.Chat"/>
+    <entry-point class="delightex.client.ChatAppController"/>
     <servlet path="/ChatService" class="delightex.server.ChatServiceImpl"/>
 
     <!-- SUPER DEV MODE -->

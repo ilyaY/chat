@@ -21,11 +21,9 @@ public class MainLayoutPanel extends Composite {
     @UiField
     SimplePanel footer;
 
-    private final String myUserName;
     final ChatServiceAsync service = ChatService.App.getInstance();
 
-    public MainLayoutPanel(String name) {
-        myUserName = name;
+    public MainLayoutPanel() {
         this.initWidget(ourUiBinder.createAndBindUi(this));
     }
 

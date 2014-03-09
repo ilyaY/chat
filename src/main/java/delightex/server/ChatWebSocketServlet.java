@@ -1,6 +1,6 @@
 package delightex.server;
 
-import delightex.client.Chat;
+import delightex.client.ChatAppController;
 import delightex.client.model.Message;
 import delightex.client.model.MessageSerializer;
 import delightex.client.model.User;
@@ -20,8 +20,8 @@ public class ChatWebSocketServlet extends WebSocketServlet {
   @Override
   public WebSocket doWebSocketConnect(HttpServletRequest request, String protocol) {
     User user = (User) request.getSession().getAttribute(USER_KEY);
-    final String roomName = request.getParameter(Chat.ROOM_KEY);
-    String lastMessage = request.getParameter(Chat.STAMP_KEY);
+    final String roomName = request.getParameter(ChatAppController.ROOM_KEY);
+    String lastMessage = request.getParameter(ChatAppController.STAMP_KEY);
 
     long lastStamp = lastMessage == null || lastMessage.isEmpty() ? 0 : Long.parseLong(lastMessage);
     if (user == null) return null;

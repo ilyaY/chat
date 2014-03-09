@@ -9,6 +9,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import delightex.client.ChatAppController;
 import delightex.client.rpc.ChatService;
 import delightex.client.rpc.ChatServiceAsync;
 
@@ -33,8 +34,10 @@ public class MainPanel extends SimplePanel {
 
     private final String myUserName;
     final ChatServiceAsync  service = ChatService.App.getInstance();
+    private ChatAppController chatAppController;
 
-    public MainPanel(String name) {
+    public MainPanel(String name, final ChatAppController chatAppController) {
+        this.chatAppController = chatAppController;
         myUserName = name;
         setWidget(ourUiBinder.createAndBindUi(this));
         helloText.setText("Hello, " + name + "! Choose some chat you want to enter!");
@@ -44,7 +47,7 @@ public class MainPanel extends SimplePanel {
             public void onClick(ClickEvent event) {
                 final String name = chatName.getValue();
                 if (name == null || name.isEmpty()) {
-                    Window.alert("Chat name cannot be empty");
+                    Window.alert("ChatAppController name cannot be empty");
                 } else {
                     service.addRoom(name, new AsyncCallback<String>() {
                         @Override
@@ -135,8 +138,6 @@ public class MainPanel extends SimplePanel {
 
     private void enterChat(String name) {
         removeFromParent();
-        RootLayoutPanel rlp = RootLayoutPanel.get();
-        rlp.add(new ChatPanel(myUserName, name));
-        RootPanel.get("gwtContent").add(rlp);
+        chatAppController.setSidebarContent(new ChatPanel(myUserName, name));
     }
 }

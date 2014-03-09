@@ -1,5 +1,7 @@
-package delightex.client.ui;
+package delightex.client.ui.panels;
 
+import com.github.gwtbootstrap.client.ui.Button;
+import com.github.gwtbootstrap.client.ui.TextBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -7,10 +9,13 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import delightex.client.ChatAppController;
 import delightex.client.rpc.ChatService;
+import delightex.client.ui.MainPanel;
 
-public class LoginDialog extends Composite {
+public class LoginPanel extends Composite {
     private static LoginDialogUiBinder ourUiBinder = GWT.create(LoginDialogUiBinder.class);
 
     @UiField
@@ -18,7 +23,7 @@ public class LoginDialog extends Composite {
     @UiField
     TextBox nameField;
 
-    public LoginDialog() {
+    public LoginPanel(final ChatAppController chatAppController) {
         this.initWidget(ourUiBinder.createAndBindUi(this));
         enter.addClickHandler(new ClickHandler() {
             @Override
@@ -34,7 +39,7 @@ public class LoginDialog extends Composite {
 
                         @Override
                         public void onSuccess(Void result) {
-                            //RootPanel.get().add(new MainPanel(name));
+                            chatAppController.setSidebarContent(new MainPanel(name, chatAppController));
                         }
                     });
                 }
@@ -51,11 +56,11 @@ public class LoginDialog extends Composite {
 
             @Override
             public void onSuccess(Void result) {
-                //RootPanel.get().add(new MainPanel("Sebastian"));
+                chatAppController.setSidebarContent(new MainPanel("Sebastian", chatAppController));
             }
         });
     }
 
-    interface LoginDialogUiBinder extends UiBinder<HTMLPanel, LoginDialog> {
+    interface LoginDialogUiBinder extends UiBinder<HTMLPanel, LoginPanel> {
     }
 }

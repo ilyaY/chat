@@ -15,6 +15,6 @@
 
     <g:DockLayoutPanel unit="EM" ui:field="wrapper">
        <g:west size="36"><g:HTML styleName="{style.sidebar}" ui:field="sidebar">Sidebar</g:HTML></g:west>
-       <g:center size="6"><g:HTML styleName="{style.canvas}">Canvas</g:HTML></g:center>
+       <g:center size="6"><g:HTML styleName="{style.canvas}" ui:field="mainContentPanel">Canvas</g:HTML></g:center>
     </g:DockLayoutPanel>
 </ui:UiBinder>
