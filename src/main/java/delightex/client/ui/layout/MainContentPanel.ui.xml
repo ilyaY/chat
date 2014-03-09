@@ -1,0 +1,20 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+    <ui:style>
+
+        .sidebar {
+            background-color: #eee;
+        }
+
+        .canvas {
+            background-color: #aaa;
+        }
+
+    </ui:style>
+
+    <g:DockLayoutPanel unit="EM" ui:field="wrapper">
+       <g:west size="36"><g:HTML styleName="{style.sidebar}" ui:field="sidebar">Sidebar</g:HTML></g:west>
+       <g:center size="6"><g:HTML styleName="{style.canvas}">Canvas</g:HTML></g:center>
+    </g:DockLayoutPanel>
+</ui:UiBinder>

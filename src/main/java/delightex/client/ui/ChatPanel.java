@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.*;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import delightex.client.Chat;
 import delightex.client.WebSocket;
@@ -14,11 +13,17 @@ import delightex.client.model.Message;
 
 import static delightex.client.model.MessageDeserializer.fromJson;
 
-public class ChatPanel extends SimplePanel {
+public class ChatPanel extends Composite {
     private static ChatPanelUiBinder ourUiBinder = GWT.create(ChatPanelUiBinder.class);
 
     @UiField
+    DockLayoutPanel wrapper;
+    @UiField
     Label helloText;
+    @UiField
+    Button toggleChat;
+    @UiField
+    ScrollPanel messagePanelWrapper;
     @UiField
     VerticalPanel messagePanel;
     @UiField
@@ -30,10 +35,9 @@ public class ChatPanel extends SimplePanel {
     private final String myRoom;
     private WebSocket mySocket;
 
-
     public ChatPanel(String userName, String chatName) {
         myRoom = chatName;
-        setWidget(ourUiBinder.createAndBindUi(this));
+        this.initWidget(ourUiBinder.createAndBindUi(this));
 
         helloText.setText(userName + ", you are in \"" + chatName + "\" chat room");
 
@@ -54,7 +58,6 @@ public class ChatPanel extends SimplePanel {
                 }
             }
         });
-
         // Window.alert("SUPER DEV MODE WORKS");
 
         Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -63,6 +66,7 @@ public class ChatPanel extends SimplePanel {
                 messageBox.setFocus(true);
             }
         });
+
     }
 
     private void send() {
@@ -127,6 +131,7 @@ public class ChatPanel extends SimplePanel {
 
                 // messagePanel.insert(p1, 0);
                 messagePanel.insert(p1, messagePanel.getWidgetCount());
+                messagePanelWrapper.scrollToBottom();
             }
 
             @Override
@@ -136,7 +141,6 @@ public class ChatPanel extends SimplePanel {
         };
     }
 
-
-    interface ChatPanelUiBinder extends UiBinder<HTMLPanel, ChatPanel> {
+    interface ChatPanelUiBinder extends UiBinder<DockLayoutPanel, ChatPanel> {
     }
 }

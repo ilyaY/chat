@@ -1,0 +1,14 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    <g:DockLayoutPanel unit="EM">
+        <g:north size="6">
+            <g:SimplePanel ui:field="header"/>
+        </g:north>
+        <g:center>
+            <g:DockLayoutPanel ui:field="mainContent"></g:DockLayoutPanel>
+        </g:center>
+        <g:south size="2">
+            <g:SimplePanel ui:field="footer"/>
+        </g:south>
+    </g:DockLayoutPanel>
+</ui:UiBinder>
