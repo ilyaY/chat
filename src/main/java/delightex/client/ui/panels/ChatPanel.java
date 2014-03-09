@@ -1,4 +1,4 @@
-package delightex.client.ui;
+package delightex.client.ui.panels;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -19,15 +19,9 @@ public class ChatPanel extends Composite {
     @UiField
     DockLayoutPanel wrapper;
     @UiField
-    Label helloText;
-    @UiField
-    Button toggleChat;
-    @UiField
     ScrollPanel messagePanelWrapper;
     @UiField
     VerticalPanel messagePanel;
-    @UiField
-    Button sendButton;
     @UiField
     TextBox messageBox;
 
@@ -39,16 +33,7 @@ public class ChatPanel extends Composite {
         myRoom = chatName;
         this.initWidget(ourUiBinder.createAndBindUi(this));
 
-        helloText.setText(userName + ", you are in \"" + chatName + "\" chat room");
-
         connect();
-
-        sendButton.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                send();
-            }
-        });
 
         messageBox.addKeyPressHandler(new KeyPressHandler() {
             @Override
@@ -58,6 +43,8 @@ public class ChatPanel extends Composite {
             }
             }
         });
+
+        messageBox.getElement().setAttribute("placeholder", "Send message");
         // Window.alert("SUPER DEV MODE WORKS");
 
         Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -96,7 +83,6 @@ public class ChatPanel extends Composite {
         mySocket = new WebSocket(webSocketUrl) {
             @Override
             protected void callOnClose(String reason) {
-                sendButton.setEnabled(false);
                 mySocket = null;
                 connect();
             }
@@ -136,7 +122,6 @@ public class ChatPanel extends Composite {
 
             @Override
             protected void callOnOpen() {
-                sendButton.setEnabled(true);
             }
         };
     }

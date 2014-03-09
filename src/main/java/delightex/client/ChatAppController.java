@@ -26,8 +26,9 @@ public class ChatAppController implements EntryPoint {
 
         HorizontalPanel headingPanel = new HorizontalPanel();
         headingPanel.add(new HTML("<h1>Coachingspaces</h1>"));
+        headingPanel.getElement().getStyle().setMarginLeft(16, Style.Unit.PX);
 
-        com.github.gwtbootstrap.client.ui.Button showChat = new com.github.gwtbootstrap.client.ui.Button("Toggle ChatAppController");
+        com.github.gwtbootstrap.client.ui.Button showChat = new com.github.gwtbootstrap.client.ui.Button("Toggle Chat");
         showChat.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {

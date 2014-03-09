@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import delightex.client.ChatAppController;
 import delightex.client.rpc.ChatService;
-import delightex.client.ui.MainPanel;
 
 public class LoginPanel extends Composite {
     private static LoginDialogUiBinder ourUiBinder = GWT.create(LoginDialogUiBinder.class);
@@ -39,7 +38,7 @@ public class LoginPanel extends Composite {
 
                         @Override
                         public void onSuccess(Void result) {
-                            chatAppController.setSidebarContent(new MainPanel(name, chatAppController));
+                            chatAppController.setSidebarContent(new RoomsPanel(name, chatAppController));
                         }
                     });
                 }
@@ -48,17 +47,17 @@ public class LoginPanel extends Composite {
             }
         });
 
-        ChatService.App.getInstance().login("Sebastian", new AsyncCallback<Void>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                Window.alert("Failed to log in");
-            }
-
-            @Override
-            public void onSuccess(Void result) {
-                chatAppController.setSidebarContent(new MainPanel("Sebastian", chatAppController));
-            }
-        });
+//        ChatService.App.getInstance().login("Sebastian", new AsyncCallback<Void>() {
+//            @Override
+//            public void onFailure(Throwable caught) {
+//                Window.alert("Failed to log in");
+//            }
+//
+//            @Override
+//            public void onSuccess(Void result) {
+//                chatAppController.setSidebarContent(new RoomsPanel("Sebastian", chatAppController));
+//            }
+//        });
     }
 
     interface LoginDialogUiBinder extends UiBinder<HTMLPanel, LoginPanel> {

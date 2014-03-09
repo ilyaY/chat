@@ -1,4 +1,4 @@
-package delightex.client.ui;
+package delightex.client.ui.panels;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,10 +15,10 @@ import delightex.client.rpc.ChatServiceAsync;
 
 import java.util.Set;
 
-public class MainPanel extends SimplePanel {
+public class RoomsPanel extends SimplePanel {
     private static ChatListUiBinder ourUiBinder = GWT.create(ChatListUiBinder.class);
 
-    interface ChatListUiBinder extends UiBinder<HTMLPanel, MainPanel> {
+    interface ChatListUiBinder extends UiBinder<HTMLPanel, RoomsPanel> {
     }
 
     private Timer myTimer;
@@ -36,7 +36,7 @@ public class MainPanel extends SimplePanel {
     final ChatServiceAsync  service = ChatService.App.getInstance();
     private ChatAppController chatAppController;
 
-    public MainPanel(String name, final ChatAppController chatAppController) {
+    public RoomsPanel(String name, final ChatAppController chatAppController) {
         this.chatAppController = chatAppController;
         myUserName = name;
         setWidget(ourUiBinder.createAndBindUi(this));
@@ -95,22 +95,6 @@ public class MainPanel extends SimplePanel {
                 if (result.isEmpty()) {
                     chatList.add(new Label("There is no chat yet, create new one!"));
                 }
-
-                service.addRoom("Test Room", new AsyncCallback<String>() {
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        Window.alert("Cannot create new chat");
-                    }
-
-                    @Override
-                    public void onSuccess(String result) {
-                        if (result != null) {
-                            Window.alert(result);
-                        } else {
-                            enterChat("Test Room");
-                        }
-                    }
-                });
             }
         });
     }
