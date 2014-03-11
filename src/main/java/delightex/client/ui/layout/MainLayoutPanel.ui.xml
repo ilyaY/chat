@@ -3,13 +3,13 @@
     <ui:style>
 
         .header {
-            background-color: #f8f8f8;
+            background-color: #ffffff;
             border-bottom: 1px solid #e7e7e7;
             width: 100%;
         }
 
         .footer {
-            background-color: #f8f8f8 ;
+            background-color: #ffffff ;
             border-top: 1px solid #e7e7e7;
             text-align: center;
         }
@@ -21,8 +21,8 @@
         <g:center>
             <g:DockLayoutPanel ui:field="mainContent"></g:DockLayoutPanel>
         </g:center>
-        <g:south size="2">
-            <g:SimplePanel ui:field="footer" styleName="{style.footer}"/>
-        </g:south>
+        <!--<g:south size="2">-->
+            <!--<g:SimplePanel ui:field="footer" styleName="{style.footer}"/>-->
+        <!--</g:south>-->
     </g:DockLayoutPanel>
 </ui:UiBinder>

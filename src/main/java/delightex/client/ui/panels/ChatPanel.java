@@ -2,7 +2,9 @@ package delightex.client.ui.panels;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -14,6 +16,9 @@ import delightex.client.model.Message;
 import static delightex.client.model.MessageDeserializer.fromJson;
 
 public class ChatPanel extends Composite {
+    interface ChatPanelUiBinder extends UiBinder<DockLayoutPanel, ChatPanel> {
+    }
+
     private static ChatPanelUiBinder ourUiBinder = GWT.create(ChatPanelUiBinder.class);
 
     @UiField
@@ -38,9 +43,9 @@ public class ChatPanel extends Composite {
         messageBox.addKeyPressHandler(new KeyPressHandler() {
             @Override
             public void onKeyPress(KeyPressEvent event) {
-            if (event.getCharCode() == KeyCodes.KEY_ENTER) {
-                send();
-            }
+                if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+                    send();
+                }
             }
         });
 
@@ -95,28 +100,28 @@ public class ChatPanel extends Composite {
             @Override
             protected void callOnMessage(String s) {
                 Message message = fromJson(s);
-                myLastStamp = message.getStamp();
-                FlowPanel p1 = new FlowPanel();
-                p1.getElement().setClassName("chat-message");
-                FlowPanel headerPanel = new FlowPanel();
-                p1.add(headerPanel);
-                FlowPanel pic = new FlowPanel();
-                pic.getElement().setClassName("chat-userpic");
-                headerPanel.add(pic);
-                pic.add(new Image("img/userpic.gif"));
-                FlowPanel sender = new FlowPanel();
-                sender.getElement().setClassName("chat-message-sender");
-                headerPanel.add(sender);
-                sender.add(new Label(message.getUser().getName()));
-                FlowPanel text = new FlowPanel();
-                text.getElement().setClassName("chat-message-text");
-                p1.add(text);
-                Label label = new Label(message.getText());
-                label.getElement().addClassName("chat-message-body");
-                text.add(label);
+//                myLastStamp = message.getStamp();
+//                FlowPanel p1 = new FlowPanel();
+//                p1.getElement().setClassName("chat-message");
+//                FlowPanel headerPanel = new FlowPanel();
+//                p1.add(headerPanel);
+//                FlowPanel pic = new FlowPanel();
+//                pic.getElement().setClassName("chat-userpic");
+//                headerPanel.add(pic);
+//                pic.add(new Image("img/userpic.gif"));
+//                FlowPanel sender = new FlowPanel();
+//                sender.getElement().setClassName("chat-message-sender");
+//                headerPanel.add(sender);
+//                sender.add(new Label(message.getUser().getName()));
+//                FlowPanel text = new FlowPanel();
+//                text.getElement().setClassName("chat-message-text");
+//                p1.add(text);
+//                Label label = new Label(message.getText());
+//                label.getElement().addClassName("chat-message-body");
+//                text.add(label);
 
                 // messagePanel.insert(p1, 0);
-                messagePanel.insert(p1, messagePanel.getWidgetCount());
+                messagePanel.insert(new ChatBubble(message), messagePanel.getWidgetCount());
                 messagePanelWrapper.scrollToBottom();
             }
 
@@ -126,6 +131,5 @@ public class ChatPanel extends Composite {
         };
     }
 
-    interface ChatPanelUiBinder extends UiBinder<DockLayoutPanel, ChatPanel> {
-    }
+
 }

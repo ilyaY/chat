@@ -1,50 +1,84 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
     <ui:style>
+
+        .wrapper:before {
+            content: "&nbsp;";
+            position: relative;
+            height: 16px;
+            top: 16px;
+            background-color: black;
+            opacity: 0.2;
+        }
+
         .wrapper {
-        padding: 16px;
+        }
+
+        .wrapper:after {
+            content: "&nbsp;";
+            position: relative;
+            height: 16px;
+            top: -16px;
+            background-color: black;
+            opacity: 0.2;
         }
 
         .mainPanel {
-        padding: 20px;
-        border-bottom: 1px solid #e7e7e7;
+            padding: 20px;
+            <!--box-shadow: inset 0px 5px 0px 0px rgba(0, 0, 0, 1);-->
+            <!--box-shadow: inset 0px -5px 0px 0px rgba(0, 0, 0, 1);-->
+            <!--box-shadow: 0 0px 10px grey inset, 0 0px 10px grey inset;-->
         }
 
-        .mainPanel:before {
-        content: "";
-        border-top: 1px solid rgba(0, 0, 0, 0.4);
-        height: 8px;
-        background: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,.2)), to(rgba(0,0,0,0)));
-        -webkit-mask-box-image: -webkit-gradient(linear, left top, right top, color-stop(0.0, rgba(0,0,0,0)),
-        color-stop(0.5, rgba(0,0,0,.8)), color-stop(1.0, rgba(0,0,0,0)));
+
+
+        .shadowTop {
+            <!--border-bottom: 1px solid rgba(0, 0, 0, 0.4);-->
+            <!--height: 8px;-->
+            <!--box-shadow: 0px 5px 20px 0px rgba(0, 255, 0, 0.1); /* Standard */-->
+            <!--line-height: 8px;-->
+            <!--background-color: transparent;-->
+            <!--background: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,.2)), to(rgba(0,0,0,0)));-->
+            <!--padding: 12px;-->
+            <!---webkit-mask-box-image: -webkit-gradient(linear, left top, right top, color-stop(0.0, rgba(0,0,0,0)),-->
+            <!--color-stop(0.5, rgba(0,0,0,.8)), color-stop(1.0, rgba(0,0,0,0)));-->
         }
 
         .shadowBottom {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-        height: 8px;
-        background: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,.2)), to(rgba(0,0,0,0)));
-        -webkit-mask-box-image: -webkit-gradient(linear, left top, right top, color-stop(0.0, rgba(0,0,0,0)),
-        color-stop(0.5, rgba(0,0,0,.8)), color-stop(1.0, rgba(0,0,0,0)));
+            <!--box-shadow: 0px -5px 20px 0px rgba(0, 255, 0, 0.1); /* Standard */-->
+            <!--line-height: 8px;-->
+            <!--background-color: transparent;-->
+            <!--background: -webkit-gradient(linear, left bottom, left top, from(rgba(0,0,0,.2)), to(rgba(0,0,0,0)));-->
+            <!---webkit-mask-box-image: -webkit-gradient(linear, left top, right top, color-stop(0.0, rgba(0,0,0,0)),-->
+            <!--color-stop(0.5, rgba(0,0,0,.8)), color-stop(1.0, rgba(0,0,0,0)));-->
         }
 
         .welcomeLabel {
-        font: normal 13px "Lucida Grande", Arial, sans-serif;
-        font-weight: bold;
-        padding-bottom: 10px;
-        }
-
-        .textBox {
-        width: 260px;
+            font: normal 13px "Lucida Grande", Arial, sans-serif;
+            font-weight: bold;
+            padding-bottom: 10px;
         }
 
         .inputWrapper {
-            padding: 16px;
+
+        }
+
+        .textBox {
+            margin: 12px 12px;
+            width: 296px;
         }
     </ui:style>
 
     <g:DockLayoutPanel unit='EM' ui:field="wrapper">
-        <g:center size="2">
+        <g:north size="4">
+            <g:HTMLPanel>
+                <h3>User Chat</h3>
+                <div class="{style.shadowTop}">&nbsp;</div>
+            </g:HTMLPanel>
+        </g:north>
+        <g:center styleName="{style.wrapper}">
             <!--<g:HTMLPanel>-->
                 <!--<div class="{style.shadowTop}"></div>-->
                 <g:ScrollPanel ui:field="messagePanelWrapper" styleName="{style.mainPanel}">
@@ -56,6 +90,7 @@
 
         <g:south size='4'>
             <g:HTMLPanel styleName="{style.inputWrapper}">
+                <div class="{style.shadowBottom}">&nbsp;</div>
                 <g:TextBox ui:field="messageBox" styleName="{style.textBox}"/>
             </g:HTMLPanel>
         </g:south>

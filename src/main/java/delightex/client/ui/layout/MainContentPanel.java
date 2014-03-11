@@ -42,6 +42,7 @@ public class MainContentPanel extends Composite {
         this.sidebar = w;
         wrapper.addWest(sidebar, 24);
         wrapper.add(mainContent);
+        sidebar.getElement().getStyle().setBackgroundColor("#868686");
         wrapper.setWidgetHidden(sidebar, !toggle);
     }
 

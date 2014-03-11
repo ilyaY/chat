@@ -1,3 +1,7 @@
+* {
+   /* box-sizing: border-box; */
+}
+
 body {
     font: normal 13px "Lucida Grande", Arial, sans-serif;
 }
@@ -26,18 +30,10 @@ body {
     font-size: 13px;
     color: #666;
 
-    border-top: 1px dashed #eeeeee;
-    padding-top: 17px;
-    margin: 20px 0px 0px 0px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 8px;
+    border-radius: 3px;
 
-    opacity: 1;
-    -webkit-transition: opacity 1s linear;
-    -moz-transition: opacity 1s linear;
-    -o-transition: opacity 1s linear;
-    transition: opacity 1s linear;
-    visibility: visible;
+    background-color: #eeeeee;
 }
 
 .chat-message-sender {

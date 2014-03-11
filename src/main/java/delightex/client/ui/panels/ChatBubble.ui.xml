@@ -1,0 +1,64 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+    <ui:style>
+
+        .wrapper {
+            width: 278px;
+            margin-top: 8px;
+        }
+
+        .messageWrapper:after {
+            content: '';
+            position: relative;
+            border-style: solid;
+            border-width: 0px 9px 9px 0;
+            border-color: transparent #eee;
+            display: block;
+            width: 0;
+            z-index: 1;
+            left: -16px;
+            top: -58px;
+        }
+
+        .messageWrapper:before {
+            content: '';
+            position: relative;
+            border-style: solid;
+            border-width: 0px 10px 10px 0;
+            border-color: transparent #18383F;
+            display: block;
+            width: 0;
+            z-index: 1;
+            left: -18px;
+            top: -9px;
+        }
+
+        .messageWrapper {
+            float: right;
+            background-color: #eee;
+            border: 1px solid #18383F;
+            border-radius: 3px;
+            border-top-left-radius: 0px;
+            padding: 8px;
+            width: 236px;
+        }
+
+        .userName {
+            font-weight: bold;
+        }
+    </ui:style>
+
+    <g:HTMLPanel ui:field="wrapper" styleName="{style.wrapper}">
+        <div style="float: left; width: 24px;">
+            <img src="img/portrait.jpg" width="24px" />
+        </div>
+        <g:HTMLPanel styleName="{style.messageWrapper}">
+            <g:HTML ui:field="userName" styleName="{style.userName}"></g:HTML>
+            <g:HTML ui:field="message"></g:HTML>
+        </g:HTMLPanel>
+        <div style="clear: both"></div>
+    </g:HTMLPanel>
+
+</ui:UiBinder>

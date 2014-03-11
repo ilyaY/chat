@@ -1,10 +1,12 @@
 package delightex.client.ui.layout;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 import delightex.client.rpc.ChatService;
 import delightex.client.rpc.ChatServiceAsync;
 
@@ -18,8 +20,8 @@ public class MainLayoutPanel extends Composite {
     SimplePanel header;
     @UiField
     DockLayoutPanel mainContent;
-    @UiField
-    SimplePanel footer;
+//    @UiField
+//    SimplePanel footer;
 
     final ChatServiceAsync service = ChatService.App.getInstance();
 
@@ -37,6 +39,6 @@ public class MainLayoutPanel extends Composite {
     }
 
     public void setFooter(Widget footer) {
-        this.footer.add(footer);
+//        this.footer.add(footer);
     }
 }
