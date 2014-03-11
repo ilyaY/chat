@@ -1,8 +1,12 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+             xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'>
 
     <ui:style>
+
+        .headingWrapper {
+            padding: 16px;
+        }
 
         .wrapper:before {
             content: "&nbsp;";
@@ -26,7 +30,7 @@
         }
 
         .mainPanel {
-            padding: 20px;
+            padding: 16px;
             <!--box-shadow: inset 0px 5px 0px 0px rgba(0, 0, 0, 1);-->
             <!--box-shadow: inset 0px -5px 0px 0px rgba(0, 0, 0, 1);-->
             <!--box-shadow: 0 0px 10px grey inset, 0 0px 10px grey inset;-->
@@ -69,13 +73,42 @@
             margin: 12px 12px;
             width: 296px;
         }
+
+        .mainPanel:hover {
+        box-shadow: 0px 0px 12px rgba(0,0,0,0.4);
+        opacity: 1;
+        }
+
+        .mainPanel::-webkit-scrollbar {
+        width: 12px;
+        height: 6px;
+        }
+
+        .mainPanel::-webkit-scrollbar-track-piece {
+        background-color: transparent;
+        -webkit-border-radius: 6px;
+        }
+
+        .mainPanel::-webkit-scrollbar-thumb:vertical {
+        height: 6px;
+        background-color: #666;
+        -webkit-border-radius: 6px;
+        }
+
+        .mainPanel::-webkit-scrollbar-thumb:horizontal {
+        width: 12px;
+        background-color: #666;
+        -webkit-border-radius: 6px;
+        }
     </ui:style>
 
     <g:DockLayoutPanel unit='EM' ui:field="wrapper">
-        <g:north size="4">
-            <g:HTMLPanel>
+        <g:north size="5">
+            <g:HTMLPanel styleName="{style.headingWrapper}">
                 <h3>User Chat</h3>
-                <div class="{style.shadowTop}">&nbsp;</div>
+                <!--<div class="{style.shadowTop}">&nbsp;</div>-->
+                <!--<b:Button>Toggle</b:Button>-->
+                <!--<b:Button>Toggle</b:Button>-->
             </g:HTMLPanel>
         </g:north>
         <g:center styleName="{style.wrapper}">
@@ -90,7 +123,7 @@
 
         <g:south size='4'>
             <g:HTMLPanel styleName="{style.inputWrapper}">
-                <div class="{style.shadowBottom}">&nbsp;</div>
+                <!--<div class="{style.shadowBottom}">&nbsp;</div>-->
                 <g:TextBox ui:field="messageBox" styleName="{style.textBox}"/>
             </g:HTMLPanel>
         </g:south>

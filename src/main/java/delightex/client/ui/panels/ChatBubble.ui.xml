@@ -5,7 +5,7 @@
     <ui:style>
 
         .wrapper {
-            width: 278px;
+            width: 298px;
             margin-top: 8px;
         }
 
@@ -42,7 +42,7 @@
             border-radius: 3px;
             border-top-left-radius: 0px;
             padding: 8px;
-            width: 236px;
+            width: 256px;
         }
 
         .userName {
