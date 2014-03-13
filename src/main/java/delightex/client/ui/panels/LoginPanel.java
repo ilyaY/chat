@@ -3,8 +3,7 @@ package delightex.client.ui.panels;
 import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.TextBox;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -22,42 +21,42 @@ public class LoginPanel extends Composite {
     @UiField
     TextBox nameField;
 
+    private ChatAppController chatAppController;
     public LoginPanel(final ChatAppController chatAppController) {
+        this.chatAppController = chatAppController;
         this.initWidget(ourUiBinder.createAndBindUi(this));
+
         enter.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final String name = nameField.getValue();
-                if (name == null || name.isEmpty()) {
-                } else {
-                    ChatService.App.getInstance().login(name, new AsyncCallback<Void>() {
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            Window.alert("Failed to log in");
-                        }
-
-                        @Override
-                        public void onSuccess(Void result) {
-                            chatAppController.setSidebarContent(new RoomsPanel(name, chatAppController));
-                        }
-                    });
-                }
-
-
+                doLogin();
             }
         });
+        nameField.addKeyPressHandler(new KeyPressHandler() {
+            @Override
+            public void onKeyPress(KeyPressEvent event) {
+                if(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER){
+                    doLogin();
+                }
+            }
+        });
+    }
 
-//        ChatService.App.getInstance().login("Sebastian", new AsyncCallback<Void>() {
-//            @Override
-//            public void onFailure(Throwable caught) {
-//                Window.alert("Failed to log in");
-//            }
-//
-//            @Override
-//            public void onSuccess(Void result) {
-//                chatAppController.setSidebarContent(new RoomsPanel("Sebastian", chatAppController));
-//            }
-//        });
+    private void doLogin(){
+        final String name = nameField.getValue();
+        if (name == null || name.isEmpty()) {
+        } else {
+            ChatService.App.getInstance().login(name, new AsyncCallback<Void>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    Window.alert("Failed to log in");
+                }
+                @Override
+                public void onSuccess(Void result) {
+                    chatAppController.setSidebarContent(new RoomsPanel(name, chatAppController));
+                }
+            });
+        }
     }
 
     interface LoginDialogUiBinder extends UiBinder<HTMLPanel, LoginPanel> {

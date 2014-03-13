@@ -5,9 +5,13 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import delightex.client.ChatAppController;
 import delightex.client.WebSocket;
@@ -21,14 +25,26 @@ public class ChatPanel extends Composite {
 
     private static ChatPanelUiBinder ourUiBinder = GWT.create(ChatPanelUiBinder.class);
 
+    public interface Style extends CssResource {
+        String scrollable();
+    }
+
+    @UiField
+    Style style;
+
+    @UiField
+    HTMLPanel headingWrapper;
     @UiField
     DockLayoutPanel wrapper;
+//    @UiField
+//    ScrollPanel messagePanelWrapper;
     @UiField
-    ScrollPanel messagePanelWrapper;
-    @UiField
-    VerticalPanel messagePanel;
+    FlowPanel messagePanel;
     @UiField
     TextBox messageBox;
+
+    @UiField
+    HTMLPanel inputWrapper;
 
     private long myLastStamp = 0;
     private final String myRoom;
@@ -59,6 +75,28 @@ public class ChatPanel extends Composite {
             }
         });
 
+//        Window.addResizeHandler(new ResizeHandler() {
+//            @Override
+//            public void onResize(ResizeEvent event) {
+//                if(messagePanel.getOffsetHeight() > wrapper.get.getOffsetHeight()){
+//                    messagePanel.addStyleName(style.scrollable());
+//                }
+//            }
+//        });
+
+        //Hack to access DockLayoutPanel wrappers style
+        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+            @Override
+            public void execute() {
+                headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 0px 30px 0 #636363");
+                headingWrapper.getElement().getParentElement().getStyle().setProperty("zIndex", "2");
+                headingWrapper.getElement().getParentElement().getStyle().setProperty("borderBottom", "1px solid #636363");
+                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 0px 30px 0 #636363");
+                inputWrapper.getElement().getParentElement().getStyle().setProperty("zIndex", "2");
+                inputWrapper.getElement().getParentElement().getStyle().setProperty("borderTop", "1px solid #636363");
+            }
+        });
+        // box-shadow:
     }
 
     private void send() {
@@ -74,6 +112,8 @@ public class ChatPanel extends Composite {
             }
         });
     }
+
+    private ChatBubble lastAddedChatBubble = null;
 
     private void connect() {
         String baseUrl = GWT.getHostPageBaseURL();
@@ -100,29 +140,13 @@ public class ChatPanel extends Composite {
             @Override
             protected void callOnMessage(String s) {
                 Message message = fromJson(s);
-//                myLastStamp = message.getStamp();
-//                FlowPanel p1 = new FlowPanel();
-//                p1.getElement().setClassName("chat-message");
-//                FlowPanel headerPanel = new FlowPanel();
-//                p1.add(headerPanel);
-//                FlowPanel pic = new FlowPanel();
-//                pic.getElement().setClassName("chat-userpic");
-//                headerPanel.add(pic);
-//                pic.add(new Image("img/userpic.gif"));
-//                FlowPanel sender = new FlowPanel();
-//                sender.getElement().setClassName("chat-message-sender");
-//                headerPanel.add(sender);
-//                sender.add(new Label(message.getUser().getName()));
-//                FlowPanel text = new FlowPanel();
-//                text.getElement().setClassName("chat-message-text");
-//                p1.add(text);
-//                Label label = new Label(message.getText());
-//                label.getElement().addClassName("chat-message-body");
-//                text.add(label);
-
-                // messagePanel.insert(p1, 0);
-                messagePanel.insert(new ChatBubble(message), messagePanel.getWidgetCount());
-                messagePanelWrapper.scrollToBottom();
+                if(lastAddedChatBubble == null || !lastAddedChatBubble.getMessage().getUser().getName().equals(message.getUser().getName())){
+                    ChatBubble cb = new ChatBubble(message);
+                    messagePanel.insert(cb, messagePanel.getWidgetCount());
+                    lastAddedChatBubble = cb;
+                } else {
+                    lastAddedChatBubble.addMessage(message);
+                }
             }
 
             @Override

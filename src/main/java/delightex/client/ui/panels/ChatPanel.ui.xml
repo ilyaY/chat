@@ -2,31 +2,15 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'>
 
-    <ui:style>
+    <ui:style type="delightex.client.ui.panels.ChatPanel.Style">
 
         .headingWrapper {
             padding: 16px;
-        }
-
-        .wrapper:before {
-            content: "&nbsp;";
-            position: relative;
-            height: 16px;
-            top: 16px;
-            background-color: black;
-            opacity: 0.2;
+            box-shadow: 0px 5px 20px 0px rgba(0, 255, 0, 0.1);
         }
 
         .wrapper {
-        }
 
-        .wrapper:after {
-            content: "&nbsp;";
-            position: relative;
-            height: 16px;
-            top: -16px;
-            background-color: black;
-            opacity: 0.2;
         }
 
         .mainPanel {
@@ -35,8 +19,6 @@
             <!--box-shadow: inset 0px -5px 0px 0px rgba(0, 0, 0, 1);-->
             <!--box-shadow: 0 0px 10px grey inset, 0 0px 10px grey inset;-->
         }
-
-
 
         .shadowTop {
             <!--border-bottom: 1px solid rgba(0, 0, 0, 0.4);-->
@@ -66,7 +48,7 @@
         }
 
         .inputWrapper {
-
+            box-shadow: 0px -5px 20px 0px rgba(0, 255, 0, 0.1);
         }
 
         .textBox {
@@ -75,54 +57,60 @@
         }
 
         .mainPanel:hover {
-        box-shadow: 0px 0px 12px rgba(0,0,0,0.4);
-        opacity: 1;
+            box-shadow: 0px 0px 12px rgba(0,0,0,0.4);
+            opacity: 1;
         }
 
         .mainPanel::-webkit-scrollbar {
-        width: 12px;
-        height: 6px;
+            width: 12px;
+            height: 6px;
         }
 
         .mainPanel::-webkit-scrollbar-track-piece {
-        background-color: transparent;
-        -webkit-border-radius: 6px;
+            background-color: transparent;
+            -webkit-border-radius: 6px;
         }
 
         .mainPanel::-webkit-scrollbar-thumb:vertical {
-        height: 6px;
-        background-color: #666;
-        -webkit-border-radius: 6px;
+            height: 6px;
+            background-color: #666;
+            -webkit-border-radius: 6px;
         }
 
         .mainPanel::-webkit-scrollbar-thumb:horizontal {
-        width: 12px;
-        background-color: #666;
-        -webkit-border-radius: 6px;
+            width: 12px;
+            background-color: #666;
+            -webkit-border-radius: 6px;
+        }
+
+        .messagePanel {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+        }
+
+        .scrollable {
+            position: relative;
         }
     </ui:style>
 
     <g:DockLayoutPanel unit='EM' ui:field="wrapper">
         <g:north size="5">
-            <g:HTMLPanel styleName="{style.headingWrapper}">
-                <h3>User Chat</h3>
+            <g:HTMLPanel ui:field="headingWrapper" styleName="{style.headingWrapper}">
+                <h5>User Chat</h5>
                 <!--<div class="{style.shadowTop}">&nbsp;</div>-->
                 <!--<b:Button>Toggle</b:Button>-->
                 <!--<b:Button>Toggle</b:Button>-->
             </g:HTMLPanel>
         </g:north>
         <g:center styleName="{style.wrapper}">
-            <!--<g:HTMLPanel>-->
-                <!--<div class="{style.shadowTop}"></div>-->
-                <g:ScrollPanel ui:field="messagePanelWrapper" styleName="{style.mainPanel}">
-                    <g:VerticalPanel ui:field="messagePanel"/>
-                </g:ScrollPanel>
-                <!--<div class="{style.shadowBottom}"></div>-->
-            <!--</g:HTMLPanel>-->
+            <g:HTMLPanel>
+                <g:FlowPanel ui:field="messagePanel" styleName="{style.messagePanel}"/>
+            </g:HTMLPanel>
         </g:center>
 
         <g:south size='4'>
-            <g:HTMLPanel styleName="{style.inputWrapper}">
+            <g:HTMLPanel ui:field="inputWrapper" styleName="{style.inputWrapper}">
                 <!--<div class="{style.shadowBottom}">&nbsp;</div>-->
                 <g:TextBox ui:field="messageBox" styleName="{style.textBox}"/>
             </g:HTMLPanel>

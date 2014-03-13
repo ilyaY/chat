@@ -2,47 +2,58 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
-    <ui:style>
+    <ui:style type="delightex.client.ui.panels.ChatBubble.Style">
 
         .wrapper {
             width: 298px;
             margin-top: 8px;
         }
 
-        .messageWrapper:after {
+        .portrait:after {
             content: '';
             position: relative;
             border-style: solid;
             border-width: 0px 9px 9px 0;
-            border-color: transparent #eee;
+            border-color: transparent #fff;
             display: block;
             width: 0;
             z-index: 1;
-            left: -16px;
-            top: -58px;
+            left: 16px;
+            top: -23px;
+            margin-bottom: -16px;
         }
 
-        .messageWrapper:before {
+        .portrait:before {
             content: '';
             position: relative;
             border-style: solid;
             border-width: 0px 10px 10px 0;
-            border-color: transparent #18383F;
+            border-color: transparent #999;
             display: block;
             width: 0;
             z-index: 1;
-            left: -18px;
-            top: -9px;
+            left: 14px;
+            top: 10px;
+            margin-top: -10px;
         }
 
         .messageWrapper {
             float: right;
-            background-color: #eee;
-            border: 1px solid #18383F;
+            box-shadow: 0px 0px 3px #999;
+        }
+
+        .messageWrapper>div {
+            border: 1px solid #999;
             border-radius: 3px;
             border-top-left-radius: 0px;
-            padding: 8px;
+            padding: 4px 8px;
+            margin-top: -1px;
             width: 256px;
+            /* GRADIENT #fff #dfdfdf */
+            background: #ffffff; /* Old browsers */
+            background: -moz-linear-gradient(top, #ffffff 0%, #dfdfdf 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#dfdfdf)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); /* Chrome10+,Safari5.1+ */
         }
 
         .userName {
@@ -51,13 +62,15 @@
     </ui:style>
 
     <g:HTMLPanel ui:field="wrapper" styleName="{style.wrapper}">
-        <div style="float: left; width: 24px;">
-            <img src="img/portrait.jpg" width="24px" />
+        <div style="float: left; width: 24px; margin-top: -1px;" class="{style.portrait}">
+            <img src="img/portrait.jpg" width="24px"/>
         </div>
-        <g:HTMLPanel styleName="{style.messageWrapper}">
-            <g:HTML ui:field="userName" styleName="{style.userName}"></g:HTML>
-            <g:HTML ui:field="message"></g:HTML>
-        </g:HTMLPanel>
+        <g:FlowPanel ui:field="subBubbleList" styleName="{style.messageWrapper}">
+            <g:HTMLPanel>
+                <g:HTML ui:field="userName" styleName="{style.userName}"></g:HTML>
+                <g:HTML ui:field="message"></g:HTML>
+            </g:HTMLPanel>
+        </g:FlowPanel>
         <div style="clear: both"></div>
     </g:HTMLPanel>
 
