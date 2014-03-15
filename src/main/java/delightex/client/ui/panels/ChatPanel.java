@@ -2,16 +2,15 @@ package delightex.client.ui.panels;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.*;
 import delightex.client.ChatAppController;
 import delightex.client.WebSocket;
@@ -36,15 +35,15 @@ public class ChatPanel extends Composite {
     HTMLPanel headingWrapper;
     @UiField
     DockLayoutPanel wrapper;
-//    @UiField
+    //    @UiField
 //    ScrollPanel messagePanelWrapper;
     @UiField
     FlowPanel messagePanel;
-    @UiField
-    TextBox messageBox;
 
     @UiField
     HTMLPanel inputWrapper;
+    @UiField
+    TextArea messageBox;
 
     private long myLastStamp = 0;
     private final String myRoom;
@@ -56,17 +55,28 @@ public class ChatPanel extends Composite {
 
         connect();
 
+        final Timer afterSendCleanUp = new Timer() {
+            @Override
+            public void run() {
+                messageBox.setValue("");
+                triggerAutoResize(messageBox.getElement());
+            }
+        };
         messageBox.addKeyPressHandler(new KeyPressHandler() {
             @Override
             public void onKeyPress(KeyPressEvent event) {
                 if (event.getCharCode() == KeyCodes.KEY_ENTER) {
                     send();
+                    event.stopPropagation();
+                    afterSendCleanUp.schedule(10);
                 }
             }
         });
 
         messageBox.getElement().setAttribute("placeholder", "Send message");
         // Window.alert("SUPER DEV MODE WORKS");
+
+        addAutoResize(messageBox.getElement());
 
         Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
             @Override
@@ -96,7 +106,19 @@ public class ChatPanel extends Composite {
                 inputWrapper.getElement().getParentElement().getStyle().setProperty("borderTop", "1px solid #636363");
             }
         });
-        // box-shadow:
+
+        final Timer t = new Timer() {
+            @Override
+            public void run() {
+                wrapper.setWidgetSize(inputWrapper, messageBox.getOffsetHeight() + 26);
+            }
+        };
+        messageBox.addKeyPressHandler(new KeyPressHandler() {
+            @Override
+            public void onKeyPress(KeyPressEvent event) {
+                t.schedule(50);
+            }
+        });
     }
 
     private void send() {
@@ -140,7 +162,7 @@ public class ChatPanel extends Composite {
             @Override
             protected void callOnMessage(String s) {
                 Message message = fromJson(s);
-                if(lastAddedChatBubble == null || !lastAddedChatBubble.getMessage().getUser().getName().equals(message.getUser().getName())){
+                if (lastAddedChatBubble == null || !lastAddedChatBubble.getMessage().getUser().getName().equals(message.getUser().getName())) {
                     ChatBubble cb = new ChatBubble(message);
                     messagePanel.insert(cb, messagePanel.getWidgetCount());
                     lastAddedChatBubble = cb;
@@ -155,5 +177,12 @@ public class ChatPanel extends Composite {
         };
     }
 
+    //Wrap jQuery.autosize();
+    private native void addAutoResize(Element ele)/*-{
+      $wnd.$(ele).autosize();
+    }-*/;
 
+    private native void triggerAutoResize(Element ele)/*-{
+      $wnd.$(ele).trigger('autosize.resize');
+    }-*/;
 }

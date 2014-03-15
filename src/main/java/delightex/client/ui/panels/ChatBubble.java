@@ -31,7 +31,7 @@ public class ChatBubble extends Composite {
     public ChatBubble(Message msg) {
         this.msg = msg;
         this.initWidget(ourUiBinder.createAndBindUi(this));
-        this.userName.setText(msg.getUser().getName());
+        this.userName.setText(msg.getUser().getName() + ":");
         this.message.setText(msg.getText());
     }
 

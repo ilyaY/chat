@@ -5,7 +5,7 @@
     <ui:style type="delightex.client.ui.panels.ChatPanel.Style">
 
         .headingWrapper {
-            padding: 16px;
+            padding: 10px 16px;
             box-shadow: 0px 5px 20px 0px rgba(0, 255, 0, 0.1);
         }
 
@@ -94,13 +94,16 @@
         }
     </ui:style>
 
-    <g:DockLayoutPanel unit='EM' ui:field="wrapper">
-        <g:north size="5">
+    <g:DockLayoutPanel unit='PX' ui:field="wrapper">
+        <g:north size="56">
             <g:HTMLPanel ui:field="headingWrapper" styleName="{style.headingWrapper}">
-                <h5>User Chat</h5>
-                <!--<div class="{style.shadowTop}">&nbsp;</div>-->
-                <!--<b:Button>Toggle</b:Button>-->
-                <!--<b:Button>Toggle</b:Button>-->
+                <div style="float: left;">
+                    <h5>User Chat</h5>
+                </div>
+                <div style="float: right;">
+                    <b:Button>Toggle shadow</b:Button>
+                </div>
+                <div style="clear: both;"></div>
             </g:HTMLPanel>
         </g:north>
         <g:center styleName="{style.wrapper}">
@@ -109,10 +112,10 @@
             </g:HTMLPanel>
         </g:center>
 
-        <g:south size='4'>
+        <g:south size='56'>
             <g:HTMLPanel ui:field="inputWrapper" styleName="{style.inputWrapper}">
                 <!--<div class="{style.shadowBottom}">&nbsp;</div>-->
-                <g:TextBox ui:field="messageBox" styleName="{style.textBox}"/>
+                <g:TextArea ui:field="messageBox" styleName="{style.textBox}"/>
             </g:HTMLPanel>
         </g:south>
     </g:DockLayoutPanel>
