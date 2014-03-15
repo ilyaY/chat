@@ -84,13 +84,13 @@
         }
 
         .messagePanel {
+
+        }
+
+        .unscrollable {
             position: absolute;
             bottom: 16px;
             left: 16px;
-        }
-
-        .scrollable {
-            position: relative;
         }
     </ui:style>
 
@@ -107,8 +107,8 @@
             </g:HTMLPanel>
         </g:north>
         <g:center styleName="{style.wrapper}">
-            <g:HTMLPanel>
-                <g:FlowPanel ui:field="messagePanel" styleName="{style.messagePanel}"/>
+            <g:HTMLPanel ui:field="mainPanel" styleName="{style.mainPanel}">
+                <g:FlowPanel ui:field="messagePanel" styleName="{style.unscrollable}"/>
             </g:HTMLPanel>
         </g:center>
 

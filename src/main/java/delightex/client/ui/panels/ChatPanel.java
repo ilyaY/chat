@@ -11,10 +11,12 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import delightex.client.ChatAppController;
 import delightex.client.WebSocket;
 import delightex.client.model.Message;
+import delightex.client.util.Console;
 
 import static delightex.client.model.MessageDeserializer.fromJson;
 
@@ -25,7 +27,8 @@ public class ChatPanel extends Composite {
     private static ChatPanelUiBinder ourUiBinder = GWT.create(ChatPanelUiBinder.class);
 
     public interface Style extends CssResource {
-        String scrollable();
+        String unscrollable();
+        String mainPanel();
     }
 
     @UiField
@@ -44,6 +47,9 @@ public class ChatPanel extends Composite {
     HTMLPanel inputWrapper;
     @UiField
     TextArea messageBox;
+
+    @UiField
+    HTMLPanel mainPanel;
 
     private long myLastStamp = 0;
     private final String myRoom;
@@ -137,6 +143,9 @@ public class ChatPanel extends Composite {
 
     private ChatBubble lastAddedChatBubble = null;
 
+    private boolean scrollPanelAdded = false;
+    private ScrollPanel sp;
+
     private void connect() {
         String baseUrl = GWT.getHostPageBaseURL();
 
@@ -168,6 +177,27 @@ public class ChatPanel extends Composite {
                     lastAddedChatBubble = cb;
                 } else {
                     lastAddedChatBubble.addMessage(message);
+                }
+
+                // ye olde switcheru
+//                Console.log("MainPanel: " + mainPanel.getOffsetHeight());
+//                Console.log("MainPanel Parent: " + mainPanel.getElement().getParentElement().getParentElement().getOffsetHeight());
+
+                //Change to ScrollPanel if messageList gets too long
+                if(messagePanel.getOffsetHeight() > mainPanel.getOffsetHeight()){
+                    Console.log("Switcheru");
+                    if(!scrollPanelAdded){
+                        sp = new ScrollPanel();
+                        sp.addStyleName(style.mainPanel());
+                        messagePanel.removeStyleName(style.unscrollable());
+                        sp.add(messagePanel);
+                        wrapper.remove(mainPanel);
+                        wrapper.add(sp);
+                        scrollPanelAdded = true;
+                    }
+                }
+                if(scrollPanelAdded){
+                    sp.scrollToBottom();
                 }
             }
 

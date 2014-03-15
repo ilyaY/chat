@@ -26,14 +26,14 @@ public class RoomsPanel extends SimplePanel {
     @UiField
     VerticalPanel chatList;
     @UiField
-    Button newButton;
+    com.github.gwtbootstrap.client.ui.Button newButton;
     @UiField
     TextBox chatName;
     @UiField
     Label helloText;
 
     private final String myUserName;
-    final ChatServiceAsync  service = ChatService.App.getInstance();
+    final ChatServiceAsync service = ChatService.App.getInstance();
     private ChatAppController chatAppController;
 
     public RoomsPanel(String name, final ChatAppController chatAppController) {
