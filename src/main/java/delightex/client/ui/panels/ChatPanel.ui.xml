@@ -62,7 +62,7 @@
         }
 
         .mainPanel::-webkit-scrollbar {
-            width: 12px;
+            width: 8px;
             height: 6px;
         }
 
@@ -98,7 +98,7 @@
         <g:north size="56">
             <g:HTMLPanel ui:field="headingWrapper" styleName="{style.headingWrapper}">
                 <div style="float: left;">
-                    <h5>User Chat</h5>
+                    <h5 style="color: white; font-weight: normal; font-size: 1.3em;">User Chat</h5>
                 </div>
                 <div style="float: right;">
                     <b:Button>Toggle shadow</b:Button>

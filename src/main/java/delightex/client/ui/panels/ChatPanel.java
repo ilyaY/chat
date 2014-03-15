@@ -6,6 +6,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -16,7 +18,6 @@ import com.google.gwt.user.client.ui.*;
 import delightex.client.ChatAppController;
 import delightex.client.WebSocket;
 import delightex.client.model.Message;
-import delightex.client.util.Console;
 
 import static delightex.client.model.MessageDeserializer.fromJson;
 
@@ -125,6 +126,20 @@ public class ChatPanel extends Composite {
                 t.schedule(50);
             }
         });
+
+        final Timer afterResizeTimer = new Timer() {
+            @Override
+            public void run() {
+                fixScrolling();
+            }
+        };
+        //scroll down after resize
+        Window.addResizeHandler(new ResizeHandler() {
+            @Override
+            public void onResize(ResizeEvent event) {
+                afterResizeTimer.schedule(50);
+            }
+        });
     }
 
     private void send() {
@@ -141,10 +156,27 @@ public class ChatPanel extends Composite {
         });
     }
 
-    private ChatBubble lastAddedChatBubble = null;
-
     private boolean scrollPanelAdded = false;
     private ScrollPanel sp;
+
+    private void fixScrolling(){
+        //Change to ScrollPanel if messageList gets too long
+        if(!scrollPanelAdded && messagePanel.getOffsetHeight() > mainPanel.getOffsetHeight()){
+            sp = new ScrollPanel();
+            sp.addStyleName(style.mainPanel());
+            messagePanel.removeStyleName(style.unscrollable());
+            sp.add(messagePanel);
+            wrapper.remove(mainPanel);
+            wrapper.add(sp);
+            scrollPanelAdded = true;
+        }
+        if(scrollPanelAdded){
+            sp.scrollToBottom();
+        }
+    }
+
+    private ChatBubble lastAddedChatBubble = null;
+    private boolean nextIsLeft = true;
 
     private void connect() {
         String baseUrl = GWT.getHostPageBaseURL();
@@ -172,33 +204,19 @@ public class ChatPanel extends Composite {
             protected void callOnMessage(String s) {
                 Message message = fromJson(s);
                 if (lastAddedChatBubble == null || !lastAddedChatBubble.getMessage().getUser().getName().equals(message.getUser().getName())) {
-                    ChatBubble cb = new ChatBubble(message);
+                    ChatBubble cb = (nextIsLeft) ? new ChatBubbleLeft(message) : new ChatBubbleRight(message);
+                    nextIsLeft = !nextIsLeft;
                     messagePanel.insert(cb, messagePanel.getWidgetCount());
                     lastAddedChatBubble = cb;
                 } else {
                     lastAddedChatBubble.addMessage(message);
                 }
-
-                // ye olde switcheru
-//                Console.log("MainPanel: " + mainPanel.getOffsetHeight());
-//                Console.log("MainPanel Parent: " + mainPanel.getElement().getParentElement().getParentElement().getOffsetHeight());
-
-                //Change to ScrollPanel if messageList gets too long
-                if(messagePanel.getOffsetHeight() > mainPanel.getOffsetHeight()){
-                    Console.log("Switcheru");
-                    if(!scrollPanelAdded){
-                        sp = new ScrollPanel();
-                        sp.addStyleName(style.mainPanel());
-                        messagePanel.removeStyleName(style.unscrollable());
-                        sp.add(messagePanel);
-                        wrapper.remove(mainPanel);
-                        wrapper.add(sp);
-                        scrollPanelAdded = true;
+                Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+                    @Override
+                    public void execute() {
+                        fixScrolling();
                     }
-                }
-                if(scrollPanelAdded){
-                    sp.scrollToBottom();
-                }
+                });
             }
 
             @Override
