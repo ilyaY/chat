@@ -46,9 +46,9 @@
             border: 1px solid #999;
             border-radius: 3px;
             border-top-left-radius: 0px;
-            padding: 4px 8px;
+            padding: 4px 16px 4px 8px;
             margin-top: -1px;
-            width: 256px;
+            width: 248px;
             /* GRADIENT #fff #dfdfdf */
             background: #ffffff; /* Old browsers */
             background: -moz-linear-gradient(top, #ffffff 0%, #dfdfdf 100%); /* FF3.6+ */
@@ -57,6 +57,11 @@
 
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        .messageWrapper>div:hover {
+            background: #ffffff;;
+            cursor: pointer;
         }
 
         .userName {
