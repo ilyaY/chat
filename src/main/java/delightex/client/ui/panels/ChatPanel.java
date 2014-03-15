@@ -3,9 +3,7 @@ package delightex.client.ui.panels;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.URL;
@@ -29,6 +27,7 @@ public class ChatPanel extends Composite {
 
     public interface Style extends CssResource {
         String unscrollable();
+
         String mainPanel();
     }
 
@@ -52,9 +51,14 @@ public class ChatPanel extends Composite {
     @UiField
     HTMLPanel mainPanel;
 
+    @UiField
+    com.github.gwtbootstrap.client.ui.Button toggleShadow;
+
     private long myLastStamp = 0;
     private final String myRoom;
     private WebSocket mySocket;
+
+    private boolean boxShadowVisible = true;
 
     public ChatPanel(String userName, String chatName) {
         myRoom = chatName;
@@ -105,12 +109,26 @@ public class ChatPanel extends Composite {
         Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
             @Override
             public void execute() {
-                headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 0px 30px 0 #636363");
+                headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 1px 30px 0 #545454");
                 headingWrapper.getElement().getParentElement().getStyle().setProperty("zIndex", "2");
-                headingWrapper.getElement().getParentElement().getStyle().setProperty("borderBottom", "1px solid #636363");
-                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 0px 30px 0 #636363");
+//                headingWrapper.getElement().getParentElement().getStyle().setProperty("borderBottom", "1px solid #636363");
+                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px -1px 30px 0 #545454");
                 inputWrapper.getElement().getParentElement().getStyle().setProperty("zIndex", "2");
-                inputWrapper.getElement().getParentElement().getStyle().setProperty("borderTop", "1px solid #636363");
+//                inputWrapper.getElement().getParentElement().getStyle().setProperty("borderTop", "1px solid #636363");
+            }
+        });
+
+        toggleShadow.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if(boxShadowVisible){
+                    headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
+                    inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
+                } else {
+                    headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 2px 30px 0 #545454");
+                    inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px -2px 30px 0 #545454");
+                }
+                boxShadowVisible = !boxShadowVisible;
             }
         });
 
@@ -159,9 +177,9 @@ public class ChatPanel extends Composite {
     private boolean scrollPanelAdded = false;
     private ScrollPanel sp;
 
-    private void fixScrolling(){
+    private void fixScrolling() {
         //Change to ScrollPanel if messageList gets too long
-        if(!scrollPanelAdded && messagePanel.getOffsetHeight() > mainPanel.getOffsetHeight()){
+        if (!scrollPanelAdded && messagePanel.getOffsetHeight() > mainPanel.getOffsetHeight()) {
             sp = new ScrollPanel();
             sp.addStyleName(style.mainPanel());
             messagePanel.removeStyleName(style.unscrollable());
@@ -170,7 +188,7 @@ public class ChatPanel extends Composite {
             wrapper.add(sp);
             scrollPanelAdded = true;
         }
-        if(scrollPanelAdded){
+        if (scrollPanelAdded) {
             sp.scrollToBottom();
         }
     }

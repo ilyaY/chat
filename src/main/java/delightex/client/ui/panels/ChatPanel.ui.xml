@@ -101,7 +101,7 @@
                     <h5 style="color: white; font-weight: normal; font-size: 1.3em;">User Chat</h5>
                 </div>
                 <div style="float: right;">
-                    <b:Button>Toggle shadow</b:Button>
+                    <b:Button ui:field="toggleShadow">Toggle shadow</b:Button>
                 </div>
                 <div style="clear: both;"></div>
             </g:HTMLPanel>
