@@ -13,8 +13,8 @@
 
     </ui:style>
 
-    <g:DockLayoutPanel unit="EM" ui:field="wrapper">
-       <g:west size="36"><g:HTML ui:field="sidebar" styleName="{style.sidebar}">Sidebar</g:HTML></g:west>
-       <g:center size="6"><g:HTML styleName="{style.canvas}" ui:field="mainContentPanel">Canvas</g:HTML></g:center>
+    <g:DockLayoutPanel unit="PX" ui:field="wrapper">
+       <g:west size="256"><g:HTML ui:field="sidebar" styleName="{style.sidebar}">Sidebar</g:HTML></g:west>
+       <g:center><g:HTML styleName="{style.canvas}" ui:field="mainContentPanel">Canvas</g:HTML></g:center>
     </g:DockLayoutPanel>
 </ui:UiBinder>

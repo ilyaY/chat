@@ -14,8 +14,8 @@
             text-align: center;
         }
     </ui:style>
-    <g:DockLayoutPanel unit="EM">
-        <g:north size="5">
+    <g:DockLayoutPanel unit="PX">
+        <g:north size="48">
             <g:SimplePanel ui:field="header" styleName="{style.header}"/>
         </g:north>
         <g:center>

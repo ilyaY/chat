@@ -1,14 +1,19 @@
 package delightex.client.ui.panels;
 
+import com.github.gwtbootstrap.client.ui.Label;
+import com.github.gwtbootstrap.client.ui.TextBox;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import delightex.client.ChatAppController;
 import delightex.client.rpc.ChatService;
 import delightex.client.rpc.ChatServiceAsync;
@@ -45,31 +50,51 @@ public class RoomsPanel extends SimplePanel {
         newButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final String name = chatName.getValue();
-                if (name == null || name.isEmpty()) {
-                    Window.alert("ChatAppController name cannot be empty");
-                } else {
-                    service.addRoom(name, new AsyncCallback<String>() {
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            Window.alert("Cannot create new chat");
-                        }
+                sendNewRequest();
+            }
+        });
 
-                        @Override
-                        public void onSuccess(String result) {
-                            if (result != null) {
-                                //Window.alert(result);
-                                enterChat(name);
-                            } else {
-                                enterChat(name);
-                            }
-                        }
-                    });
+        chatName.addKeyPressHandler(new KeyPressHandler() {
+            @Override
+            public void onKeyPress(KeyPressEvent event) {
+                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+                    sendNewRequest();
                 }
             }
         });
 
+        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+            @Override
+            public void execute() {
+                chatName.setFocus(true);
+            }
+        });
+
         refreshChats();
+    }
+
+    private void sendNewRequest(){
+        final String name = chatName.getValue();
+        if (name == null || name.isEmpty()) {
+            Window.alert("ChatAppController name cannot be empty");
+        } else {
+            service.addRoom(name, new AsyncCallback<String>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    Window.alert("Cannot create new chat");
+                }
+
+                @Override
+                public void onSuccess(String result) {
+                    if (result != null) {
+                        //Window.alert(result);
+                        enterChat(name);
+                    } else {
+                        enterChat(name);
+                    }
+                }
+            });
+        }
     }
 
     private void refreshChats() {

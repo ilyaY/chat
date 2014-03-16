@@ -10,13 +10,9 @@
 
     </ui:style>
     <g:HTMLPanel styleName="{style.wrapper}">
-        <g:VerticalPanel>
-            <g:Label ui:field="helloText" height="30"/>
+            <b:Label ui:field="helloText" height="30"/>
             <g:VerticalPanel ui:field="chatList"/>
-        </g:VerticalPanel>
-        <g:HorizontalPanel>
-            <g:TextBox ui:field="chatName"/>
+            <b:TextBox ui:field="chatName"/>
             <b:Button text="Create Chat" ui:field="newButton"/>
-        </g:HorizontalPanel>
     </g:HTMLPanel>
 </ui:UiBinder>

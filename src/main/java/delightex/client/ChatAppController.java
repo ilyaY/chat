@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.*;
 import delightex.client.ui.panels.LoginPanel;
 import delightex.client.ui.layout.MainContentPanel;
 import delightex.client.ui.layout.MainLayoutPanel;
+import delightex.client.ui.widgets.IconButton;
 
 public class ChatAppController implements EntryPoint {
     public static final String ROOM_KEY = "room";
@@ -25,19 +26,23 @@ public class ChatAppController implements EntryPoint {
         mainLayout.setFooter(new HTML("&#169; Coachingspaces 2014"));
 
         HorizontalPanel headingPanel = new HorizontalPanel();
-        headingPanel.add(new HTML("<h1>Coachingspaces</h1>"));
-        headingPanel.getElement().getStyle().setMarginLeft(16, Style.Unit.PX);
 
-        com.github.gwtbootstrap.client.ui.Button showChat = new com.github.gwtbootstrap.client.ui.Button("Toggle Chat");
-        showChat.addClickHandler(new ClickHandler() {
+        headingPanel.add(new HTML("<h3 style='line-height: 28px; margin-right: 16px;'>Coachingspaces</h3>"));
+        headingPanel.getElement().getStyle().setMarginLeft(16, Style.Unit.PX);
+        headingPanel.getElement().getStyle().setMarginRight(16, Style.Unit.PX);
+
+        IconButton iconButton = new IconButton("fa-comment", "Click to toggle Chat sidebar");
+
+        iconButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 mainContentPanel.toggleSidebar();
             }
         });
-        showChat.getElement().getStyle().setMarginTop(18, Style.Unit.PX);
-        showChat.getElement().getStyle().setMarginLeft(16, Style.Unit.PX);
-        headingPanel.add(showChat);
+
+        headingPanel.add(iconButton);
+        headingPanel.setCellVerticalAlignment(iconButton, HasVerticalAlignment.ALIGN_MIDDLE);
+
         //mainLayout.setHeader(new MainNavPanel());
         mainLayout.setHeader(headingPanel);
 
