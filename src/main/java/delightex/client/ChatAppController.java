@@ -31,12 +31,17 @@ public class ChatAppController implements EntryPoint {
         headingPanel.getElement().getStyle().setMarginLeft(16, Style.Unit.PX);
         headingPanel.getElement().getStyle().setMarginRight(16, Style.Unit.PX);
 
-        IconButton iconButton = new IconButton("fa-comment", "Click to toggle Chat sidebar");
-
+        final IconButton iconButton = new IconButton("fa-comment", "Click to toggle Chat sidebar");
+        iconButton.setInactiveStyle();
         iconButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 mainContentPanel.toggleSidebar();
+                if(iconButton.isInactive()){
+                    iconButton.setDefaultStyle();
+                } else {
+                    iconButton.setInactiveStyle();
+                }
             }
         });
 

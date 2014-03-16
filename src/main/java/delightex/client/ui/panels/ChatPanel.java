@@ -16,6 +16,8 @@ import com.google.gwt.user.client.ui.*;
 import delightex.client.ChatAppController;
 import delightex.client.WebSocket;
 import delightex.client.model.Message;
+import delightex.client.ui.widgets.IconButton;
+import delightex.client.ui.widgets.ToggleIconButton;
 
 import static delightex.client.model.MessageDeserializer.fromJson;
 
@@ -36,6 +38,9 @@ public class ChatPanel extends Composite {
 
     @UiField
     HTMLPanel headingWrapper;
+    @UiField(provided=true)
+    ToggleIconButton toggleButton;
+
     @UiField
     DockLayoutPanel wrapper;
     //    @UiField
@@ -51,9 +56,6 @@ public class ChatPanel extends Composite {
     @UiField
     HTMLPanel mainPanel;
 
-    @UiField
-    com.github.gwtbootstrap.client.ui.Button toggleShadow;
-
     private long myLastStamp = 0;
     private final String myRoom;
     private WebSocket mySocket;
@@ -62,6 +64,23 @@ public class ChatPanel extends Composite {
 
     public ChatPanel(String userName, String chatName) {
         myRoom = chatName;
+        IconButton userChatButton = new IconButton("fa-comments", "User Chat");
+        userChatButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 2px 30px 0 #545454");
+                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px -2px 30px 0 #545454");
+            }
+        });
+        IconButton figureChatButton = new IconButton("fa-group", "Figure Chat");
+        figureChatButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
+                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
+            }
+        });
+        toggleButton = new ToggleIconButton(userChatButton, figureChatButton);
         this.initWidget(ourUiBinder.createAndBindUi(this));
 
         connect();
@@ -118,19 +137,19 @@ public class ChatPanel extends Composite {
             }
         });
 
-        toggleShadow.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                if(boxShadowVisible){
-                    headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
-                    inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
-                } else {
-                    headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 2px 30px 0 #545454");
-                    inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px -2px 30px 0 #545454");
-                }
-                boxShadowVisible = !boxShadowVisible;
-            }
-        });
+//        toggleShadow.addClickHandler(new ClickHandler() {
+//            @Override
+//            public void onClick(ClickEvent event) {
+//                if(boxShadowVisible){
+//                    headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
+//                    inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
+//                } else {
+//                    headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 2px 30px 0 #545454");
+//                    inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px -2px 30px 0 #545454");
+//                }
+//                boxShadowVisible = !boxShadowVisible;
+//            }
+//        });
 
         final Timer t = new Timer() {
             @Override

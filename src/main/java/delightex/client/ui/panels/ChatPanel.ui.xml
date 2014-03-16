@@ -1,6 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'>
+             xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'
+            xmlns:dx='urn:import:delightex.client.ui.widgets'>
 
     <ui:style type="delightex.client.ui.panels.ChatPanel.Style">
 
@@ -98,10 +99,10 @@
         <g:north size="56">
             <g:HTMLPanel ui:field="headingWrapper" styleName="{style.headingWrapper}">
                 <div style="float: left;">
-                    <h5 style="color: white; font-weight: normal; font-size: 1.3em;">User Chat</h5>
+                    <dx:ToggleIconButton ui:field="toggleButton"></dx:ToggleIconButton>
                 </div>
-                <div style="float: right;">
-                    <b:Button ui:field="toggleShadow">Toggle shadow</b:Button>
+                <div style="float: left;">
+                    <h5 style="margin-left: 16px; color: white; font-weight: normal; font-size: 1.3em;">User Chat</h5>
                 </div>
                 <div style="clear: both;"></div>
             </g:HTMLPanel>
