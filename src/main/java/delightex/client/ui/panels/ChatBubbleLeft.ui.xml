@@ -19,7 +19,7 @@
             width: 0;
             z-index: 1;
             left: 16px;
-            top: -23px;
+            top: -22px;
             margin-bottom: -16px;
         }
 

@@ -6,7 +6,7 @@
     <ui:style type="delightex.client.ui.panels.ChatPanel.Style">
 
         .headingWrapper {
-            padding: 10px 16px;
+            padding: 8px 16px;
             box-shadow: 0px 5px 20px 0px rgba(0, 255, 0, 0.1);
         }
 
