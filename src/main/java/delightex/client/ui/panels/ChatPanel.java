@@ -18,6 +18,7 @@ import delightex.client.WebSocket;
 import delightex.client.model.Message;
 import delightex.client.ui.widgets.IconButton;
 import delightex.client.ui.widgets.ToggleIconButton;
+import delightex.client.util.Console;
 
 import static delightex.client.model.MessageDeserializer.fromJson;
 
@@ -38,7 +39,7 @@ public class ChatPanel extends Composite {
 
     @UiField
     HTMLPanel headingWrapper;
-    @UiField(provided=true)
+    @UiField(provided = true)
     ToggleIconButton toggleButton;
 
     @UiField
@@ -92,14 +93,22 @@ public class ChatPanel extends Composite {
                 triggerAutoResize(messageBox.getElement());
             }
         };
-        messageBox.addKeyPressHandler(new KeyPressHandler() {
+        final Timer afterInputResize = new Timer() {
             @Override
-            public void onKeyPress(KeyPressEvent event) {
-                if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+            public void run() {
+                wrapper.setWidgetSize(inputWrapper, messageBox.getOffsetHeight() + 26);
+            }
+        };
+        messageBox.addKeyDownHandler(new KeyDownHandler() {
+            @Override
+            public void onKeyDown(KeyDownEvent event) {
+                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+                    Console.log("SEND");
                     send();
                     event.stopPropagation();
                     afterSendCleanUp.schedule(10);
                 }
+                afterInputResize.schedule(50);
             }
         });
 
@@ -150,19 +159,6 @@ public class ChatPanel extends Composite {
 //                boxShadowVisible = !boxShadowVisible;
 //            }
 //        });
-
-        final Timer t = new Timer() {
-            @Override
-            public void run() {
-                wrapper.setWidgetSize(inputWrapper, messageBox.getOffsetHeight() + 26);
-            }
-        };
-        messageBox.addKeyPressHandler(new KeyPressHandler() {
-            @Override
-            public void onKeyPress(KeyPressEvent event) {
-                t.schedule(50);
-            }
-        });
 
         final Timer afterResizeTimer = new Timer() {
             @Override
