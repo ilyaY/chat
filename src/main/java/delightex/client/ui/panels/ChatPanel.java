@@ -76,25 +76,25 @@ public class ChatPanel extends Composite {
         this.presenter = presenter;
         myRoom = roomName;
         IconButton userChatButton = new IconButton("fa-comments", "User Chat");
-        userChatButton.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 2px 30px 0 #545454");
-                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px -2px 30px 0 #545454");
-            }
-        });
+//        userChatButton.addClickHandler(new ClickHandler() {
+//            @Override
+//            public void onClick(ClickEvent event) {
+//                headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 2px 30px 0 #545454");
+//                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px -2px 30px 0 #545454");
+//            }
+//        });
         IconButton figureChatButton = new IconButton("fa-group", "Figure Chat");
-        figureChatButton.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
-                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
-            }
-        });
+//        figureChatButton.addClickHandler(new ClickHandler() {
+//            @Override
+//            public void onClick(ClickEvent event) {
+//                headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
+//                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
+//            }
+//        });
         toggleButton = new ToggleIconButton(userChatButton, figureChatButton);
         this.initWidget(ourUiBinder.createAndBindUi(this));
 
-        presenter.connect(roomName, 0l, new Command() {
+        presenter.connect(roomName, new Command() {
             @Override
             public void execute() {
                 //Socket opened
@@ -112,12 +112,15 @@ public class ChatPanel extends Composite {
             @Override
             public void run() {
                 wrapper.setWidgetSize(inputWrapper, messageBox.getOffsetHeight() + 26);
+                if (scrollPanelAdded) {
+                    sp.scrollToBottom();
+                }
             }
         };
         messageBox.addKeyDownHandler(new KeyDownHandler() {
             @Override
             public void onKeyDown(KeyDownEvent event) {
-                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER && !"".equals(messageBox.getValue())) {
                     Console.log("SEND");
                     send();
                     event.stopPropagation();

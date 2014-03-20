@@ -30,7 +30,9 @@ public abstract class ChatBubble extends Composite {
     }
 
     public void addMessage(Message message) {
-        subBubbleList.add(new HTML(message.getText()));
+        HTML wrapper = new HTML();
+        wrapper.setText(message.getText());
+        subBubbleList.add(wrapper);
     }
 
     public Message getMessage() {

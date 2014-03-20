@@ -14,6 +14,7 @@ import delightex.client.ui.panels.ChatPanel;
 import delightex.client.ui.panels.RoomsPanel;
 import delightex.client.util.Console;
 
+import java.util.Date;
 import java.util.Set;
 
 import static delightex.client.model.MessageDeserializer.fromJson;
@@ -77,7 +78,8 @@ public class ChatPresenter {
         myChatService.getRooms(asyncCallback);
     }
 
-    public void connect(final String myRoom, final Long myLastStamp, final Command onConnected) {
+    private long myLastStamp;
+    public void connect(final String myRoom, final Command onConnected) {
         String baseUrl = GWT.getHostPageBaseURL();
 
         String webSocketUrl = baseUrl.replace("http", "ws") + "wschat";
@@ -93,7 +95,8 @@ public class ChatPresenter {
             @Override
             protected void callOnClose(String reason) {
                 mySocket = null;
-                //connect(myRoom, myLastStamp, onConnected);
+                myLastStamp = new Date().getTime();
+                connect(myRoom, onConnected);
             }
 
             @Override
