@@ -8,13 +8,12 @@ import com.google.gwt.event.dom.client.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import delightex.client.ChatAppController;
+import delightex.client.presenter.ChatPresenter;
 import delightex.client.rpc.ChatService;
 import delightex.client.rpc.ChatServiceAsync;
 
@@ -39,10 +38,10 @@ public class RoomsPanel extends SimplePanel {
 
     private final String myUserName;
     final ChatServiceAsync service = ChatService.App.getInstance();
-    private ChatAppController chatAppController;
+    private ChatPresenter chatPresenter;
 
-    public RoomsPanel(String name, final ChatAppController chatAppController) {
-        this.chatAppController = chatAppController;
+    public RoomsPanel(String name, final ChatPresenter chatPresenter) {
+        this.chatPresenter = chatPresenter;
         myUserName = name;
         setWidget(ourUiBinder.createAndBindUi(this));
         helloText.setText("Hello, " + name + "! Choose some chat you want to enter!");
@@ -50,7 +49,7 @@ public class RoomsPanel extends SimplePanel {
         newButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                sendNewRequest();
+                chatPresenter.createRoom(chatName.getValue());
             }
         });
 
@@ -58,7 +57,7 @@ public class RoomsPanel extends SimplePanel {
             @Override
             public void onKeyPress(KeyPressEvent event) {
                 if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-                    sendNewRequest();
+                    chatPresenter.createRoom(chatName.getValue());
                 }
             }
         });
@@ -73,32 +72,8 @@ public class RoomsPanel extends SimplePanel {
         refreshChats();
     }
 
-    private void sendNewRequest(){
-        final String name = chatName.getValue();
-        if (name == null || name.isEmpty()) {
-            Window.alert("ChatAppController name cannot be empty");
-        } else {
-            service.addRoom(name, new AsyncCallback<String>() {
-                @Override
-                public void onFailure(Throwable caught) {
-                    Window.alert("Cannot create new chat");
-                }
-
-                @Override
-                public void onSuccess(String result) {
-                    if (result != null) {
-                        //Window.alert(result);
-                        enterChat(name);
-                    } else {
-                        enterChat(name);
-                    }
-                }
-            });
-        }
-    }
-
     private void refreshChats() {
-        ChatService.App.getInstance().getRooms(new AsyncCallback<Set<String>>() {
+        chatPresenter.getRooms(new AsyncCallback<Set<String>>() {
             @Override
             public void onFailure(Throwable caught) {
                 throw new RuntimeException(caught);
@@ -112,7 +87,7 @@ public class RoomsPanel extends SimplePanel {
                     link.addClickHandler(new ClickHandler() {
                         @Override
                         public void onClick(ClickEvent event) {
-                            enterChat(chat);
+                            chatPresenter.createRoom(chat);
                         }
                     });
                     chatList.add(link);
@@ -143,10 +118,5 @@ public class RoomsPanel extends SimplePanel {
         super.onDetach();
 
         myTimer.cancel();
-    }
-
-    private void enterChat(String name) {
-        removeFromParent();
-        chatAppController.setSidebarContent(new ChatPanel(myUserName, name));
     }
 }

@@ -10,7 +10,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import delightex.client.ChatAppController;
+import delightex.client.presenter.ChatPresenter;
 import delightex.client.rpc.ChatService;
 
 public class LoginPanel extends Composite {
@@ -21,43 +21,29 @@ public class LoginPanel extends Composite {
     @UiField
     TextBox nameField;
 
-    private ChatAppController chatAppController;
-    public LoginPanel(final ChatAppController chatAppController) {
-        this.chatAppController = chatAppController;
+    private ChatPresenter chatPresenter;
+
+    public LoginPanel(final ChatPresenter chatPresenter) {
+        this.chatPresenter = chatPresenter;
         this.initWidget(ourUiBinder.createAndBindUi(this));
 
         enter.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                doLogin();
+                chatPresenter.doLogin(nameField.getValue());
             }
         });
         nameField.addKeyPressHandler(new KeyPressHandler() {
             @Override
             public void onKeyPress(KeyPressEvent event) {
-                if(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER){
-                    doLogin();
+                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+                    chatPresenter.doLogin(nameField.getValue());
                 }
             }
         });
     }
 
-    private void doLogin(){
-        final String name = nameField.getValue();
-        if (name == null || name.isEmpty()) {
-        } else {
-            ChatService.App.getInstance().login(name, new AsyncCallback<Void>() {
-                @Override
-                public void onFailure(Throwable caught) {
-                    Window.alert("Failed to log in");
-                }
-                @Override
-                public void onSuccess(Void result) {
-                    chatAppController.setSidebarContent(new RoomsPanel(name, chatAppController));
-                }
-            });
-        }
-    }
+
 
     interface LoginDialogUiBinder extends UiBinder<HTMLPanel, LoginPanel> {
     }

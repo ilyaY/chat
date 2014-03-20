@@ -6,23 +6,22 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
-import delightex.client.ChatAppController;
-import delightex.client.WebSocket;
 import delightex.client.model.Message;
+import delightex.client.presenter.ChatPresenter;
 import delightex.client.ui.widgets.IconButton;
 import delightex.client.ui.widgets.ToggleIconButton;
 import delightex.client.util.Console;
 
-import static delightex.client.model.MessageDeserializer.fromJson;
-
 public class ChatPanel extends Composite {
+
+
     interface ChatPanelUiBinder extends UiBinder<DockLayoutPanel, ChatPanel> {
     }
 
@@ -57,14 +56,25 @@ public class ChatPanel extends Composite {
     @UiField
     HTMLPanel mainPanel;
 
+    private ChatPresenter presenter;
+
     private long myLastStamp = 0;
     private final String myRoom;
-    private WebSocket mySocket;
 
     private boolean boxShadowVisible = true;
 
-    public ChatPanel(String userName, String chatName) {
-        myRoom = chatName;
+    private boolean scrollPanelAdded = false;
+    private ScrollPanel sp;
+
+    private ChatBubble lastAddedChatBubble = null;
+    private boolean nextIsLeft = true;
+
+    public ChatPanel(String userName, String roomName, ChatPresenter presenter) {
+        Console.log(userName);
+        Console.log(roomName);
+
+        this.presenter = presenter;
+        myRoom = roomName;
         IconButton userChatButton = new IconButton("fa-comments", "User Chat");
         userChatButton.addClickHandler(new ClickHandler() {
             @Override
@@ -84,7 +94,12 @@ public class ChatPanel extends Composite {
         toggleButton = new ToggleIconButton(userChatButton, figureChatButton);
         this.initWidget(ourUiBinder.createAndBindUi(this));
 
-        connect();
+        presenter.connect(roomName, 0l, new Command() {
+            @Override
+            public void execute() {
+                //Socket opened
+            }
+        });
 
         final Timer afterSendCleanUp = new Timer() {
             @Override
@@ -177,10 +192,10 @@ public class ChatPanel extends Composite {
 
     private void send() {
         String text = messageBox.getValue();
-        if (mySocket != null) {
-            mySocket.send(text);
-            messageBox.setValue(null);
-        }
+
+        presenter.send(text);
+        messageBox.setValue(null);
+
         Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
             @Override
             public void execute() {
@@ -188,9 +203,6 @@ public class ChatPanel extends Composite {
             }
         });
     }
-
-    private boolean scrollPanelAdded = false;
-    private ScrollPanel sp;
 
     private void fixScrolling() {
         //Change to ScrollPanel if messageList gets too long
@@ -208,55 +220,23 @@ public class ChatPanel extends Composite {
         }
     }
 
-    private ChatBubble lastAddedChatBubble = null;
-    private boolean nextIsLeft = true;
-
-    private void connect() {
-        String baseUrl = GWT.getHostPageBaseURL();
-
-        String webSocketUrl = baseUrl.replace("http", "ws") + "wschat";
-
-        webSocketUrl += "?" + ChatAppController.ROOM_KEY + "=" + URL.encodeQueryString(myRoom);
-        if (myLastStamp != 0) {
-            webSocketUrl += "&" + ChatAppController.STAMP_KEY + "=" + myLastStamp;
+    public void addMessage(Message message) {
+        if (lastAddedChatBubble == null || !lastAddedChatBubble.getMessage().getUser().getName().equals(message.getUser().getName())) {
+            ChatBubble cb = (nextIsLeft) ? new ChatBubbleLeft(message) : new ChatBubbleRight(message);
+            nextIsLeft = !nextIsLeft;
+            messagePanel.insert(cb, messagePanel.getWidgetCount());
+            lastAddedChatBubble = cb;
+        } else {
+            lastAddedChatBubble.addMessage(message);
         }
-
-        mySocket = new WebSocket(webSocketUrl) {
+        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
             @Override
-            protected void callOnClose(String reason) {
-                mySocket = null;
-                connect();
+            public void execute() {
+                fixScrolling();
             }
-
-            @Override
-            protected void callOnError() {
-                //error
-            }
-
-            @Override
-            protected void callOnMessage(String s) {
-                Message message = fromJson(s);
-                if (lastAddedChatBubble == null || !lastAddedChatBubble.getMessage().getUser().getName().equals(message.getUser().getName())) {
-                    ChatBubble cb = (nextIsLeft) ? new ChatBubbleLeft(message) : new ChatBubbleRight(message);
-                    nextIsLeft = !nextIsLeft;
-                    messagePanel.insert(cb, messagePanel.getWidgetCount());
-                    lastAddedChatBubble = cb;
-                } else {
-                    lastAddedChatBubble.addMessage(message);
-                }
-                Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-                    @Override
-                    public void execute() {
-                        fixScrolling();
-                    }
-                });
-            }
-
-            @Override
-            protected void callOnOpen() {
-            }
-        };
+        });
     }
+
 
     //Wrap jQuery.autosize();
     private native void addAutoResize(Element ele)/*-{

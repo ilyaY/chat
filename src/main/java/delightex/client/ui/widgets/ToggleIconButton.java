@@ -13,6 +13,7 @@ public class ToggleIconButton extends FlowPanel {
 
         left.getElement().getStyle().setProperty("borderTopRightRadius", "0px");
         left.getElement().getStyle().setProperty("borderBottomRightRadius", "0px");
+        left.getElement().getStyle().setProperty("borderRight", "none");
 
         left.addClickHandler(new ClickHandler() {
             @Override
@@ -31,6 +32,7 @@ public class ToggleIconButton extends FlowPanel {
 
         right.getElement().getStyle().setProperty("borderTopLeftRadius", "0px");
         right.getElement().getStyle().setProperty("borderBottomLeftRadius", "0px");
+        right.getElement().getStyle().setProperty("borderLeft", "none");
 
         right.setInactiveStyle();
 

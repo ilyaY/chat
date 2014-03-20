@@ -5,6 +5,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.*;
+import delightex.client.presenter.ChatPresenter;
 import delightex.client.ui.panels.LoginPanel;
 import delightex.client.ui.layout.MainContentPanel;
 import delightex.client.ui.layout.MainLayoutPanel;
@@ -55,7 +56,8 @@ public class ChatAppController implements EntryPoint {
         // RootPanel.get().add(new MainNavPanel());
         RootPanel.get().add(rlp);
 
-        setSidebarContent(new LoginPanel(this));
+        ChatPresenter chatPresenter = new ChatPresenter(this);
+        setSidebarContent(new LoginPanel(chatPresenter));
     }
 
     public void setSidebarContent(Widget sidebarContent){
