@@ -1,92 +1,77 @@
 package delightex.client.ui.widgets;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
 
-import javax.xml.soap.Text;
+public class IconButton extends Composite implements HasClickHandlers {
 
-public class IconButton extends Anchor {
-    public IconButton(String faIconName, String title){
-        this.setHTML("<i class='fa " + faIconName +"' style='line-height: 38px'></i>");
-        this.setTitle(title);
-        Style style = this.getElement().getStyle();
-        style.setDisplay(Style.Display.BLOCK);
-        style.setFontSize(22, Style.Unit.PX);
-        style.setWidth(38, Style.Unit.PX);
-        style.setHeight(38, Style.Unit.PX);
-        style.setTextAlign(Style.TextAlign.CENTER);
-        style.setColor("#ffffff");
-        style.setBackgroundColor("#2c75ba");
-        style.setBorderWidth(1, Style.Unit.PX);
-        style.setBorderColor("#366594");
-        style.setBorderStyle(Style.BorderStyle.SOLID);
-        style.setProperty("borderRadius", "3px");
-        style.setCursor(Style.Cursor.POINTER);
+    @UiField
+    Anchor anchor;
+
+    public IconButton(String faIconName, String title) {
+        initWidget(ourUiBinder.createAndBindUi(this));
+
+        anchor.setHTML("<i class='fa " + faIconName + "' style='line-height: 38px'></i>");
+        anchor.setTitle(title);
+
         setDefaultStyle();
-        this.addMouseOverHandler(new MouseOverHandler() {
-            @Override
-            public void onMouseOver(MouseOverEvent event) {
-                setHoverStyle();
-            }
-        });
-        this.addMouseOutHandler(new MouseOutHandler() {
+
+        anchor.addMouseOutHandler(new MouseOutHandler() {
             @Override
             public void onMouseOut(MouseOutEvent event) {
-                if(inactive){
+                if (inactive) {
                     setInactiveStyle();
                 } else {
                     setDefaultStyle();
                 }
             }
         });
-        this.addMouseDownHandler(new MouseDownHandler() {
+        anchor.addMouseDownHandler(new MouseDownHandler() {
             @Override
             public void onMouseDown(MouseDownEvent event) {
                 setPressedStyle();
             }
         });
-        this.addMouseUpHandler(new MouseUpHandler() {
-            @Override
-            public void onMouseUp(MouseUpEvent event) {
-                setHoverStyle();
-            }
-        });
+
     }
 
-    public void setDefaultStyle(){
+    public void setDefaultStyle() {
         inactive = false;
-        Style style = this.getElement().getStyle();
-        style.setColor("#ffffff");
-        style.setBackgroundColor("#2c75ba");
-        style.setBorderColor("#366594");
     }
 
-    public void setPressedStyle(){
-        Style style = this.getElement().getStyle();
-        style.setColor("#ffffff");
-        style.setBackgroundColor("#3d83d6");
-        style.setBorderColor("#366594");
-    }
-
-    public void setHoverStyle(){
-        Style style = this.getElement().getStyle();
-        style.setColor("#ffffff");
-        style.setBackgroundColor("#5b95e8");
-        style.setBorderColor("#366594");
+    public void setPressedStyle() {
+//        Style style = this.getElement().getStyle();
+//        style.setColor("#ffffff");
+//        style.setBackgroundColor("#3d83d6");
+//        style.setBorderColor("#366594");
     }
 
     private boolean inactive = false;
-
-    public boolean isInactive(){
+    public boolean isInactive() {
         return inactive;
     }
 
-    public void setInactiveStyle(){
+    public void setInactiveStyle() {
         inactive = true;
-        Style style = this.getElement().getStyle();
-        style.setColor("#f3f3f3");
-        style.setBackgroundColor("#d0d0d0");
-        style.setBorderColor("#d5d5d5");
+//        Style style = this.getElement().getStyle();
+//        style.setColor("#f3f3f3");
+//        style.setBackgroundColor("#d0d0d0");
+//        style.setBorderColor("#d5d5d5");
     }
+
+    @Override
+    public HandlerRegistration addClickHandler(ClickHandler handler) {
+        return anchor.addClickHandler(handler);
+    }
+
+    interface IconButtonBinder extends UiBinder<Anchor, IconButton> {
+    }
+
+    private static IconButtonBinder ourUiBinder = GWT.create(IconButtonBinder.class);
 }

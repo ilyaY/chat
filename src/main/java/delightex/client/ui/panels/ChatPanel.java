@@ -120,11 +120,21 @@ public class ChatPanel extends Composite {
         messageBox.addKeyDownHandler(new KeyDownHandler() {
             @Override
             public void onKeyDown(KeyDownEvent event) {
-                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER && !"".equals(messageBox.getValue())) {
-                    Console.log("SEND");
-                    send();
-                    event.stopPropagation();
-                    afterSendCleanUp.schedule(10);
+                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+                    if(!messageBox.getValue().isEmpty()){
+                        Console.log("SEND");
+                        send(messageBox.getValue());
+                        afterSendCleanUp.schedule(10);
+                    }
+                   Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+                        @Override
+                        public void execute() {
+                            messageBox.setValue(null);
+                            messageBox.setFocus(true);
+                            fixScrolling();
+                        }
+                    });
+                   event.stopPropagation();
                 }
                 afterInputResize.schedule(50);
             }
@@ -193,18 +203,8 @@ public class ChatPanel extends Composite {
         });
     }
 
-    private void send() {
-        String text = messageBox.getValue();
-
+    private void send(String text) {
         presenter.send(text);
-        messageBox.setValue(null);
-
-        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-            @Override
-            public void execute() {
-                messageBox.setFocus(true);
-            }
-        });
     }
 
     private void fixScrolling() {

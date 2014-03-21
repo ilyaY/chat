@@ -1,0 +1,31 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'
+             xmlns:dx='urn:import:delightex.client.ui.widgets'>
+
+    <ui:style>
+        .anchor {
+            display: block;
+            font-size: 22px;
+            width: 38px;
+            height: 38px;
+            text-align: center;
+            color: #fff;
+            background-color: #d0d0d0;
+            border: 1px solid #d5d5d5;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .anchor:hover {
+            color: #fff;
+            background-color: #5b95e8;
+            border-color: #366594;
+        }
+    </ui:style>
+
+    <g:Anchor ui:field="anchor" styleName="{style.anchor}">
+
+    </g:Anchor>
+
+</ui:UiBinder>
