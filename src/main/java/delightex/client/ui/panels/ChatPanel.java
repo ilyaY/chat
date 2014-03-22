@@ -3,9 +3,7 @@ package delightex.client.ui.panels;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.CssResource;
@@ -219,6 +217,12 @@ public class ChatPanel extends Composite {
             wrapper.remove(mainPanel);
             wrapper.add(sp);
             scrollPanelAdded = true;
+            sp.addScrollHandler(new ScrollHandler() {
+                @Override
+                public void onScroll(ScrollEvent event) {
+                    presenter.hideMessageOptionsMenu();
+                }
+            });
         }
         if (scrollPanelAdded) {
             sp.scrollToBottom();
@@ -227,7 +231,7 @@ public class ChatPanel extends Composite {
 
     public void addMessage(Message message) {
         if (lastAddedChatBubble == null || !lastAddedChatBubble.getMessage().getUser().getName().equals(message.getUser().getName())) {
-            ChatBubble cb = (nextIsLeft) ? new ChatBubble(message, false) : new ChatBubble(message, true);
+            ChatBubble cb = (nextIsLeft) ? new ChatBubble(presenter, message, false) : new ChatBubble(presenter, message, true);
             nextIsLeft = !nextIsLeft;
             messagePanel.insert(cb, messagePanel.getWidgetCount());
             lastAddedChatBubble = cb;

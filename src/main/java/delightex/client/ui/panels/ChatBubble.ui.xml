@@ -119,7 +119,7 @@
             width: 28px;
         }
 
-        .optionsAnchor:hover {
+        .optionsAnchor.optionsAnchorHover, .optionsAnchor:hover {
             background-color: #868686;
             color: white;
             text-decoration: none;
@@ -130,7 +130,7 @@
             text-align: right;
         }
 
-        .messageWrapper>div .optionsAnchor:hover .angleUp {
+        .optionsAnchor.optionsAnchorHover .angleUp,.messageWrapper>div .optionsAnchor:hover .angleUp {
             display: inline;
         }
     </ui:style>
@@ -141,7 +141,7 @@
         </div>
         <g:FlowPanel ui:field="subBubbleList" styleName="{style.messageWrapper}">
             <g:HTMLPanel>
-                <g:Anchor styleName="{style.optionsAnchor}"><i class="fa fa-cog"></i>&nbsp;<i class="fa fa-angle-up {style.angleUp}"></i></g:Anchor>
+                <g:Anchor ui:field="optionsAnchor" styleName="{style.optionsAnchor}"><i class="fa fa-cog"></i>&nbsp;<i class="fa fa-angle-up {style.angleUp}"></i></g:Anchor>
                 <g:HTML ui:field="userName" styleName="{style.userName}"></g:HTML>
                 <g:HTML ui:field="message"></g:HTML>
             </g:HTMLPanel>

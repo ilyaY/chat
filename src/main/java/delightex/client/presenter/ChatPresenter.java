@@ -1,16 +1,26 @@
 package delightex.client.presenter;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import delightex.client.ChatAppController;
 import delightex.client.WebSocket;
 import delightex.client.model.Message;
 import delightex.client.rpc.ChatService;
 import delightex.client.rpc.ChatServiceAsync;
 import delightex.client.ui.panels.ChatPanel;
+import delightex.client.ui.panels.MessageOptionsPopup;
 import delightex.client.ui.panels.RoomsPanel;
 import delightex.client.util.Console;
 
@@ -25,8 +35,34 @@ public class ChatPresenter {
     private WebSocket mySocket;
     private String myUserName;
 
+    private MessageOptionsPopup popup;
+    private boolean popupVisible = false;
+
     public ChatPresenter(ChatAppController appController) {
         this.myAppController = appController;
+//        Window.addWindowScrollHandler(new Window.ScrollHandler() {
+//            @Override
+//            public void onWindowScroll(Window.ScrollEvent event) {
+//                if(popup != null){
+//                    popup.hide();
+//                }
+//            }
+//        });
+
+        // Global click event handler to close popups
+        RootPanel.get().sinkEvents(Event.ONCLICK);
+        RootPanel.get().addHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+               if(popupVisible){
+                   // If click was outside of popup, hide popup
+                   if(popup != null && !popup.getElement().isOrHasChild(Element.as(event.getNativeEvent().getEventTarget()))){
+                       hideMessageOptionsMenu();
+                   }
+               }
+            }
+
+        }, ClickEvent.getType());
     }
 
     public void doLogin(final String name) {
@@ -119,5 +155,34 @@ public class ChatPresenter {
 
     public void send(String msg) {
         mySocket.send(msg);
+    }
+
+    private Command cleanUpSourceAnchorStyling;
+
+    public void openMessageOptionsMenu(int left, int top, Command cleanUpSourceAnchorStyling){
+        if(popup != null){
+            hideMessageOptionsMenu();
+        }
+        this.cleanUpSourceAnchorStyling = cleanUpSourceAnchorStyling;
+        popup = new MessageOptionsPopup();
+        popup.setWidget(new HTML("Edit Statement<hr/>Delete Statement"));
+        popup.show();
+        popup.setPopupPosition(left, top - popup.getOffsetHeight());
+        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+            @Override
+            public void execute() {
+                popupVisible = true;
+            }
+        });
+    }
+
+    public void hideMessageOptionsMenu(){
+        if(popup != null){
+            popup.hide();
+            if(cleanUpSourceAnchorStyling != null){
+                cleanUpSourceAnchorStyling.execute();
+            }
+        }
+        popupVisible = false;
     }
 }
