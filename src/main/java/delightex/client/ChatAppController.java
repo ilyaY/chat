@@ -19,7 +19,6 @@ public class ChatAppController implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-        //new LoginPanel().center();
         RootLayoutPanel rlp = RootLayoutPanel.get();
         MainLayoutPanel mainLayout = new MainLayoutPanel();
 

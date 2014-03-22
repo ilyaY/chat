@@ -16,7 +16,7 @@ public class ChatBubbleLeft extends ChatBubble {
     private static ChatPanelUiBinder ourUiBinder = GWT.create(ChatPanelUiBinder.class);
 
     public ChatBubbleLeft(Message msg) {
-        super(msg);
+        super(msg, false);
         initWidget(ourUiBinder.createAndBindUi(this));
         init();
     }

@@ -3,7 +3,9 @@ package delightex.client.ui.panels;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.CssResource;
@@ -127,13 +129,13 @@ public class ChatPanel extends Composite {
                         afterSendCleanUp.schedule(10);
                     }
                    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-                        @Override
-                        public void execute() {
-                            messageBox.setValue(null);
-                            messageBox.setFocus(true);
-                            fixScrolling();
-                        }
-                    });
+                       @Override
+                       public void execute() {
+                           messageBox.setValue(null);
+                           messageBox.setFocus(true);
+                           fixScrolling();
+                       }
+                   });
                    event.stopPropagation();
                 }
                 afterInputResize.schedule(50);
@@ -225,7 +227,7 @@ public class ChatPanel extends Composite {
 
     public void addMessage(Message message) {
         if (lastAddedChatBubble == null || !lastAddedChatBubble.getMessage().getUser().getName().equals(message.getUser().getName())) {
-            ChatBubble cb = (nextIsLeft) ? new ChatBubbleLeft(message) : new ChatBubbleRight(message);
+            ChatBubble cb = (nextIsLeft) ? new ChatBubble(message, false) : new ChatBubble(message, true);
             nextIsLeft = !nextIsLeft;
             messagePanel.insert(cb, messagePanel.getWidgetCount());
             lastAddedChatBubble = cb;

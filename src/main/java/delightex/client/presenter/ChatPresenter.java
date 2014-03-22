@@ -120,6 +120,4 @@ public class ChatPresenter {
     public void send(String msg) {
         mySocket.send(msg);
     }
-
-
 }
