@@ -36,7 +36,7 @@ public class WebSocket {
   }-*/;
 
     public native void send(String message) /*-{
-      this.@delightex.client.WebSocket::myWebSocket.sendChatMessage(message);
+      this.@delightex.client.WebSocket::myWebSocket.send(message);
   }-*/;
 
     public native void close() /*-{
