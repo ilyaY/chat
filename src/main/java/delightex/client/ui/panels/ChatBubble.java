@@ -52,6 +52,8 @@ public class ChatBubble extends Composite {
     private Message msg;
     private ChatPresenter presenter;
 
+    private boolean optionsAnchorPressed = false;
+
     private static ChatPanelUiBinder ourUiBinder = GWT.create(ChatPanelUiBinder.class);
 
     public ChatBubble(final ChatPresenter presenter, Message msg, boolean rightPortrait) {
@@ -67,11 +69,18 @@ public class ChatBubble extends Composite {
         optionsAnchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                Console.log(style.optionsAnchorHover());
+                //ignore event, if anchor currenty active
+                if(optionsAnchorPressed){
+                    event.stopPropagation();
+                    return;
+                }
+                optionsAnchorPressed = true;
+
                 optionsAnchor.addStyleName(style.optionsAnchorHover());
                 presenter.openMessageOptionsMenu(optionsAnchor.getAbsoluteLeft(), optionsAnchor.getAbsoluteTop(), new Command() {
                     @Override
                     public void execute() {
+                        optionsAnchorPressed = false;
                         optionsAnchor.removeStyleName(style.optionsAnchorHover());
                     }
                 });

@@ -6,6 +6,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
@@ -40,14 +42,13 @@ public class ChatPresenter {
 
     public ChatPresenter(ChatAppController appController) {
         this.myAppController = appController;
-//        Window.addWindowScrollHandler(new Window.ScrollHandler() {
-//            @Override
-//            public void onWindowScroll(Window.ScrollEvent event) {
-//                if(popup != null){
-//                    popup.hide();
-//                }
-//            }
-//        });
+
+        Window.addResizeHandler(new ResizeHandler() {
+            @Override
+            public void onResize(ResizeEvent event) {
+                hideMessageOptionsMenu();
+            }
+        });
 
         // Global click event handler to close popups
         RootPanel.get().sinkEvents(Event.ONCLICK);
@@ -142,6 +143,7 @@ public class ChatPresenter {
 
             @Override
             protected void callOnMessage(String s) {
+                hideMessageOptionsMenu();
                 Message message = fromJson(s);
                 chatPanel.addMessage(message);
             }
@@ -159,18 +161,18 @@ public class ChatPresenter {
 
     private Command cleanUpSourceAnchorStyling;
 
-    public void openMessageOptionsMenu(int left, int top, Command cleanUpSourceAnchorStyling){
+    public void openMessageOptionsMenu(final int left, final int top, Command cleanUpSourceAnchorStyling){
         if(popup != null){
             hideMessageOptionsMenu();
         }
         this.cleanUpSourceAnchorStyling = cleanUpSourceAnchorStyling;
         popup = new MessageOptionsPopup();
-        popup.setWidget(new HTML("Edit Statement<hr/>Delete Statement"));
+//        popup.setWidget(new HTML("Edit Statement<hr/>Delete Statement"));
         popup.show();
-        popup.setPopupPosition(left, top - popup.getOffsetHeight());
         Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
             @Override
             public void execute() {
+                popup.setPopupPosition(left, top - popup.getOffsetHeight());
                 popupVisible = true;
             }
         });
