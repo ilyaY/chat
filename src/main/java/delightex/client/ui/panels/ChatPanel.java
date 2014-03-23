@@ -91,6 +91,7 @@ public class ChatPanel extends Composite {
 //                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
 //            }
 //        });
+        userChatButton.setPressedStyle();
         toggleButton = new ToggleIconButton(userChatButton, figureChatButton);
         this.initWidget(ourUiBinder.createAndBindUi(this));
 

@@ -12,6 +12,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.*;
 import delightex.client.model.Message;
 import delightex.client.presenter.ChatPresenter;
+import delightex.client.util.Console;
 
 public class ChatBubble extends Composite {
 
@@ -66,6 +67,7 @@ public class ChatBubble extends Composite {
         optionsAnchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
+                Console.log(style.optionsAnchorHover());
                 optionsAnchor.addStyleName(style.optionsAnchorHover());
                 presenter.openMessageOptionsMenu(optionsAnchor.getAbsoluteLeft(), optionsAnchor.getAbsoluteTop(), new Command() {
                     @Override
@@ -85,7 +87,7 @@ public class ChatBubble extends Composite {
     public void addMessage(Message message) {
         HTMLPanel wrapper = new HTMLPanel("");
         final Anchor optionsAnchor = new Anchor();
-        optionsAnchor.setHTML("<i class=\"fa fa-cog\"></i>&nbsp;<i class=\"fa fa-angle-up " + style.angleUp() + "\"></i>");
+        optionsAnchor.setHTML("<i class=\"fa fa-cog\"></i><i class=\"fa fa-angle-up " + style.angleUp() + "\"></i>");
         optionsAnchor.addStyleName(style.optionsAnchor());
         optionsAnchor.addClickHandler(new ClickHandler() {
             @Override

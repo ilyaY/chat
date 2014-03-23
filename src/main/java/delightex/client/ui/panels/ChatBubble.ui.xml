@@ -108,18 +108,19 @@
         .optionsAnchor {
             display: none;
             position: relative;
-            margin-top: -22px;
-            padding: 1px 4px;
+            margin-top: -20px;
+            padding: 3px 3px;
             border-radius: 3px;
-            top: 21px;
-            left: 225px;
+            top: 20px;
+            left: 232px;
             font-size: 14px;
             text-decoration: none;
             color: #686868;
-            width: 28px;
+            width: 22px;
         }
 
         .optionsAnchor.optionsAnchorHover, .optionsAnchor:hover {
+            display: block;
             background-color: #868686;
             color: white;
             text-decoration: none;
@@ -128,9 +129,11 @@
         .angleUp {
             display: none;
             text-align: right;
+            font-size: 10px;
+            margin-left: 2px;
         }
 
-        .optionsAnchor.optionsAnchorHover .angleUp,.messageWrapper>div .optionsAnchor:hover .angleUp {
+        .optionsAnchor.optionsAnchorHover .angleUp, .optionsAnchor:hover .angleUp {
             display: inline;
         }
     </ui:style>
@@ -141,7 +144,7 @@
         </div>
         <g:FlowPanel ui:field="subBubbleList" styleName="{style.messageWrapper}">
             <g:HTMLPanel>
-                <g:Anchor ui:field="optionsAnchor" styleName="{style.optionsAnchor}"><i class="fa fa-cog"></i>&nbsp;<i class="fa fa-angle-up {style.angleUp}"></i></g:Anchor>
+                <g:Anchor ui:field="optionsAnchor" styleName="{style.optionsAnchor}"><i class="fa fa-cog"></i><i class="fa fa-angle-up {style.angleUp}"></i></g:Anchor>
                 <g:HTML ui:field="userName" styleName="{style.userName}"></g:HTML>
                 <g:HTML ui:field="message"></g:HTML>
             </g:HTMLPanel>
