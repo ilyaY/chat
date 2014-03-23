@@ -23,11 +23,14 @@ public class ChatAppController implements EntryPoint {
         MainLayoutPanel mainLayout = new MainLayoutPanel();
 
         mainLayout.setMainContent(mainContentPanel);
-        mainLayout.setFooter(new HTML("&#169; Coachingspaces 2014"));
+//        mainLayout.setFooter(new HTML("&#169; Coachingspaces 2014"));
 
         HorizontalPanel headingPanel = new HorizontalPanel();
-
-        headingPanel.add(new HTML("<h3 style='line-height: 28px; margin-right: 16px;'>Coachingspaces</h3>"));
+        headingPanel.getElement().getStyle().setHeight(100, Style.Unit.PCT);
+//        headingPanel.getElement().getStyle().setMarginTop(8, Style.Unit.PX);
+//        headingPanel.add(new HTML("<h3 style='line-height: 28px; margin-right: 16px;'>Coachingspaces</h3>"));
+        HTML brandIcon = new HTML("<img style='margin-top: 3px; margin-right: 16px' width='256px' src='/img/cs_logo.png' />");
+        headingPanel.add(brandIcon);
         headingPanel.getElement().getStyle().setMarginLeft(16, Style.Unit.PX);
         headingPanel.getElement().getStyle().setMarginRight(16, Style.Unit.PX);
 
@@ -44,8 +47,10 @@ public class ChatAppController implements EntryPoint {
                 }
             }
         });
+        iconButton.getElement().getStyle().setMarginTop(1, Style.Unit.PX);
 
         headingPanel.add(iconButton);
+        headingPanel.setCellVerticalAlignment(brandIcon, HasVerticalAlignment.ALIGN_MIDDLE);
         headingPanel.setCellVerticalAlignment(iconButton, HasVerticalAlignment.ALIGN_MIDDLE);
 
         //mainLayout.setHeader(new MainNavPanel());

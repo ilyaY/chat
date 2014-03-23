@@ -29,14 +29,14 @@
             width: 0;
             z-index: 1;
             left: 16px;
-            top: -22px;
+            top: -23px;
             margin-bottom: -16px;
         }
 
         .portraitRight:after {
             border-width: 0px 0px 9px 9px;
             left: -1px;
-            top: -22px;
+            top: -23px;
         }
 
         .portrait:before {
@@ -55,7 +55,7 @@
 
         .portraitRight:before {
             border-width: 0px 0px 10px 10px;
-            left: 1px;
+            left: 0px;
         }
 
         .messageWrapper {

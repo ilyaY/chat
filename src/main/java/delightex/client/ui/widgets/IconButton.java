@@ -4,12 +4,20 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 
 public class IconButton extends Composite implements HasClickHandlers {
+
+    public interface Style extends CssResource {
+        String anchorPressed();
+    }
+
+    @UiField
+    Style style;
 
     @UiField
     Anchor anchor;
@@ -50,6 +58,7 @@ public class IconButton extends Composite implements HasClickHandlers {
 //        style.setColor("#ffffff");
 //        style.setBackgroundColor("#3d83d6");
 //        style.setBorderColor("#366594");
+          anchor.addStyleName(style.anchorPressed());
     }
 
     private boolean inactive = false;
@@ -63,6 +72,7 @@ public class IconButton extends Composite implements HasClickHandlers {
 //        style.setColor("#f3f3f3");
 //        style.setBackgroundColor("#d0d0d0");
 //        style.setBorderColor("#d5d5d5");
+        anchor.removeStyleName(style.anchorPressed());
     }
 
     @Override
