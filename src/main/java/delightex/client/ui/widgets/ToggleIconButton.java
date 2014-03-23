@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 
 public class ToggleIconButton extends FlowPanel {
-    public ToggleIconButton(final IconButton left, final IconButton right){
+    public ToggleIconButton(final IconButton left, final IconButton right) {
         left.getElement().getStyle().setFloat(Style.Float.LEFT);
         right.getElement().getStyle().setFloat(Style.Float.LEFT);
 

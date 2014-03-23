@@ -58,10 +58,11 @@ public class IconButton extends Composite implements HasClickHandlers {
 //        style.setColor("#ffffff");
 //        style.setBackgroundColor("#3d83d6");
 //        style.setBorderColor("#366594");
-          anchor.addStyleName(style.anchorPressed());
+        anchor.addStyleName(style.anchorPressed());
     }
 
     private boolean inactive = false;
+
     public boolean isInactive() {
         return inactive;
     }

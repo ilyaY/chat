@@ -5,14 +5,14 @@
     <ui:style>
 
         .wrapper {
-            padding: 16px;
+        padding: 16px;
         }
 
     </ui:style>
     <g:HTMLPanel styleName="{style.wrapper}">
-            <b:Label ui:field="helloText" height="30"/>
-            <g:VerticalPanel ui:field="chatList"/>
-            <b:TextBox ui:field="chatName"/>
-            <b:Button text="Create Chat" ui:field="newButton"/>
+        <b:Label ui:field="helloText" height="30"/>
+        <g:VerticalPanel ui:field="chatList"/>
+        <b:TextBox ui:field="chatName"/>
+        <b:Button text="Create Chat" ui:field="newButton"/>
     </g:HTMLPanel>
 </ui:UiBinder>

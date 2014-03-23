@@ -3,15 +3,15 @@
     <ui:style>
 
         .header {
-            background-color: #ffffff;
-            border-bottom: 1px solid #e7e7e7;
-            width: 100%;
+        background-color: #ffffff;
+        border-bottom: 1px solid #e7e7e7;
+        width: 100%;
         }
 
         .footer {
-            background-color: #ffffff ;
-            border-top: 1px solid #e7e7e7;
-            text-align: center;
+        background-color: #ffffff ;
+        border-top: 1px solid #e7e7e7;
+        text-align: center;
         }
     </ui:style>
     <g:DockLayoutPanel unit="PX">
@@ -22,7 +22,7 @@
             <g:DockLayoutPanel ui:field="mainContent"></g:DockLayoutPanel>
         </g:center>
         <!--<g:south size="2">-->
-            <!--<g:SimplePanel ui:field="footer" styleName="{style.footer}"/>-->
+        <!--<g:SimplePanel ui:field="footer" styleName="{style.footer}"/>-->
         <!--</g:south>-->
     </g:DockLayoutPanel>
 </ui:UiBinder>

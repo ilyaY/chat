@@ -5,136 +5,137 @@
     <ui:style type="delightex.client.ui.panels.ChatBubble.Style">
 
         .wrapper {
-            width: 298px;
-            margin-top: 8px;
+        width: 298px;
+        margin-top: 8px;
         }
 
         .portrait {
-            float: left;
-            width: 24px;
-            <!--margin-top: -1px;-->
+        float: left;
+        width: 24px;
+        <!--margin-top: -1px;-->
         }
 
         .portraitWrapperRight {
-            float: right;
+        float: right;
         }
 
         .portrait:after {
-            content: '';
-            position: relative;
-            border-style: solid;
-            border-width: 0px 9px 9px 0;
-            border-color: transparent #fff;
-            display: block;
-            width: 0;
-            z-index: 1;
-            left: 16px;
-            top: -23px;
-            margin-bottom: -16px;
+        content: '';
+        position: relative;
+        border-style: solid;
+        border-width: 0px 9px 9px 0;
+        border-color: transparent #fff;
+        display: block;
+        width: 0;
+        z-index: 1;
+        left: 16px;
+        top: -23px;
+        margin-bottom: -16px;
         }
 
         .portraitRight:after {
-            border-width: 0px 0px 9px 9px;
-            left: -1px;
-            top: -23px;
+        border-width: 0px 0px 9px 9px;
+        left: -1px;
+        top: -23px;
         }
 
         .portrait:before {
-            content: '';
-            position: relative;
-            border-style: solid;
-            border-width: 0px 10px 10px 0;
-            border-color: transparent #999;
-            display: block;
-            width: 0;
-            z-index: 1;
-            left: 14px;
-            top: 9px;
-            margin-top: -10px;
+        content: '';
+        position: relative;
+        border-style: solid;
+        border-width: 0px 10px 10px 0;
+        border-color: transparent #999;
+        display: block;
+        width: 0;
+        z-index: 1;
+        left: 14px;
+        top: 9px;
+        margin-top: -10px;
         }
 
         .portraitRight:before {
-            border-width: 0px 0px 10px 10px;
-            left: 0px;
+        border-width: 0px 0px 10px 10px;
+        left: 0px;
         }
 
         .messageWrapper {
-            float: right;
-            box-shadow: 0px 0px 3px #999;
+        float: right;
+        box-shadow: 0px 0px 3px #999;
         }
 
         .messageWrapperRight {
-            float: left;
+        float: left;
         }
 
         .messageWrapper>div:first-of-type {
-            border-top-left-radius: 0px;
+        border-top-left-radius: 0px;
         }
 
         .messageWrapperRight>div:first-of-type {
-            border-top-right-radius: 0px;
-            border-top-left-radius: 3px;
+        border-top-right-radius: 0px;
+        border-top-left-radius: 3px;
         }
 
         .messageWrapper>div {
-            border: 1px solid #999;
-            border-radius: 3px;
-            padding: 4px 32px 4px 8px;
-            margin-top: -1px;
-            width: 232px;
-            /* GRADIENT #fff #dfdfdf */
-            background: #ffffff; /* Old browsers */
-            background: -moz-linear-gradient(top, #ffffff 0%, #dfdfdf 100%); /* FF3.6+ */
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#dfdfdf)); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); /* Chrome10+,Safari5.1+ */
+        border: 1px solid #999;
+        border-radius: 3px;
+        padding: 4px 32px 4px 8px;
+        margin-top: -1px;
+        width: 232px;
+        /* GRADIENT #fff #dfdfdf */
+        background: #ffffff; /* Old browsers */
+        background: -moz-linear-gradient(top, #ffffff 0%, #dfdfdf 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#dfdfdf));
+        /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); /* Chrome10+,Safari5.1+ */
 
-            overflow: hidden;
-            text-overflow: ellipsis;
+        overflow: hidden;
+        text-overflow: ellipsis;
         }
 
         .messageWrapper>div:hover {
-            background: #ffffff;;
-            cursor: pointer;
+        background: #ffffff;;
+        cursor: pointer;
         }
 
         .userName {
-            font-weight: bold;
+        font-weight: bold;
         }
 
         .messageWrapper>div:hover .optionsAnchor {
-            display: block;
+        display: block;
         }
 
         .optionsAnchor {
-            display: none;
-            position: relative;
-            margin-top: -20px;
-            padding: 3px 3px;
-            border-radius: 3px;
-            top: 20px;
-            left: 232px;
-            font-size: 14px;
-            text-decoration: none;
-            color: #686868;
-            width: 22px;
+        display: none;
+        position: relative;
+        margin-top: -20px;
+        padding: 3px 3px;
+        border-radius: 3px;
+        top: 20px;
+        left: 232px;
+        font-size: 14px;
+        text-decoration: none;
+        color: #686868;
+        width: 22px;
         }
 
         .optionsAnchor.optionsAnchorHover, .optionsAnchor:hover {
-            display: block;
-            background-color: #868686;
-            color: white;
-            text-decoration: none;
+        display: block;
+        background-color: #868686;
+        color: white;
+        text-decoration: none;
         }
 
         .angleUp {
-            display: none;
-            text-align: right;
-            font-size: 10px;
-            margin-left: 2px;
+        display: none;
+        text-align: right;
+        font-size: 10px;
+        margin-left: 2px;
         }
 
         .optionsAnchor.optionsAnchorHover .angleUp, .optionsAnchor:hover .angleUp {
-            display: inline;
+        display: inline;
         }
     </ui:style>
 
@@ -144,7 +145,10 @@
         </div>
         <g:FlowPanel ui:field="subBubbleList" styleName="{style.messageWrapper}">
             <g:HTMLPanel>
-                <g:Anchor ui:field="optionsAnchor" styleName="{style.optionsAnchor}"><i class="fa fa-cog"></i><i class="fa fa-angle-up {style.angleUp}"></i></g:Anchor>
+                <g:Anchor ui:field="optionsAnchor" styleName="{style.optionsAnchor}">
+                    <i class="fa fa-cog"></i>
+                    <i class="fa fa-angle-up {style.angleUp}"></i>
+                </g:Anchor>
                 <g:HTML ui:field="userName" styleName="{style.userName}"></g:HTML>
                 <g:HTML ui:field="message"></g:HTML>
             </g:HTMLPanel>

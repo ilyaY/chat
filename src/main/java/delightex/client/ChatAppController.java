@@ -19,16 +19,14 @@ public class ChatAppController implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
+        /*  Create Basic Layout */
         RootLayoutPanel rlp = RootLayoutPanel.get();
         MainLayoutPanel mainLayout = new MainLayoutPanel();
 
         mainLayout.setMainContent(mainContentPanel);
-//        mainLayout.setFooter(new HTML("&#169; Coachingspaces 2014"));
 
         HorizontalPanel headingPanel = new HorizontalPanel();
         headingPanel.getElement().getStyle().setHeight(100, Style.Unit.PCT);
-//        headingPanel.getElement().getStyle().setMarginTop(8, Style.Unit.PX);
-//        headingPanel.add(new HTML("<h3 style='line-height: 28px; margin-right: 16px;'>Coachingspaces</h3>"));
         HTML brandIcon = new HTML("<img style='margin-top: 3px; margin-right: 16px' width='256px' src='/img/cs_logo.png' />");
         headingPanel.add(brandIcon);
         headingPanel.getElement().getStyle().setMarginLeft(16, Style.Unit.PX);
@@ -40,7 +38,7 @@ public class ChatAppController implements EntryPoint {
             @Override
             public void onClick(ClickEvent event) {
                 mainContentPanel.toggleSidebar();
-                if(iconButton.isInactive()){
+                if (iconButton.isInactive()) {
                     iconButton.setDefaultStyle();
                 } else {
                     iconButton.setInactiveStyle();
@@ -57,18 +55,18 @@ public class ChatAppController implements EntryPoint {
         mainLayout.setHeader(headingPanel);
 
         rlp.add(mainLayout);
-        // RootPanel.get().add(new MainNavPanel());
         RootPanel.get().add(rlp);
 
+         /* Create Content */
         ChatPresenter chatPresenter = new ChatPresenter(this);
         setSidebarContent(new LoginPanel(chatPresenter));
     }
 
-    public void setSidebarContent(Widget sidebarContent){
+    public void setSidebarContent(Widget sidebarContent) {
         mainContentPanel.setSidebarContent(sidebarContent);
     }
 
-    public void setMainContentPanel(Widget mainContent){
+    public void setMainContentPanel(Widget mainContent) {
         mainContentPanel.setMainContent(mainContent);
     }
 }

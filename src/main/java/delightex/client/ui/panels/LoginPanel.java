@@ -44,7 +44,6 @@ public class LoginPanel extends Composite {
     }
 
 
-
     interface LoginDialogUiBinder extends UiBinder<HTMLPanel, LoginPanel> {
     }
 }

@@ -14,84 +14,84 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class ChatWebSocketServlet extends WebSocketServlet {
-  public static final String MODEL_KEY = "model";
-  public static final String USER_KEY = "user";
+    public static final String MODEL_KEY = "model";
+    public static final String USER_KEY = "user";
 
-  @Override
-  public WebSocket doWebSocketConnect(HttpServletRequest request, String protocol) {
-    User user = (User) request.getSession().getAttribute(USER_KEY);
-    final String roomName = request.getParameter(ChatAppController.ROOM_KEY);
-    String lastMessage = request.getParameter(ChatAppController.STAMP_KEY);
+    @Override
+    public WebSocket doWebSocketConnect(HttpServletRequest request, String protocol) {
+        User user = (User) request.getSession().getAttribute(USER_KEY);
+        final String roomName = request.getParameter(ChatAppController.ROOM_KEY);
+        String lastMessage = request.getParameter(ChatAppController.STAMP_KEY);
 
-    long lastStamp = lastMessage == null || lastMessage.isEmpty() ? 0 : Long.parseLong(lastMessage);
-    if (user == null) return null;
+        long lastStamp = lastMessage == null || lastMessage.isEmpty() ? 0 : Long.parseLong(lastMessage);
+        if (user == null) return null;
 
-    final Model model = (Model) getServletContext().getAttribute(MODEL_KEY);
-    RoomContainer room = model.getRoom(roomName);
-    if (room == null) return null;
-    return new MyWebSocket(room, lastStamp, user);
-  }
-
-  @Override
-  public void init() throws ServletException {
-    super.init();
-    Model model = new Model();
-    getServletContext().setAttribute(MODEL_KEY, model);
-  }
-  
-  private static class MyWebSocket implements WebSocket.OnTextMessage, RoomPort {
-    private final RoomContainer myContainer;
-    private final long myStamp;
-    private final User myUser;
-
-    private volatile Connection myConnection;
-
-    MyWebSocket(RoomContainer container, long stamp, User user) {
-      myContainer = container;
-      myStamp = stamp;
-      myUser = user;
+        final Model model = (Model) getServletContext().getAttribute(MODEL_KEY);
+        RoomContainer room = model.getRoom(roomName);
+        if (room == null) return null;
+        return new MyWebSocket(room, lastStamp, user);
     }
 
     @Override
-    public void onOpen(Connection connection) {
-      myConnection = connection;
-      myContainer.addPort(this);
-
-      List<Message> messages = myContainer.getMessageContainer().getMessages(myStamp);
-      for (Message message : messages) {
-        send(message);
-      }
+    public void init() throws ServletException {
+        super.init();
+        Model model = new Model();
+        getServletContext().setAttribute(MODEL_KEY, model);
     }
 
-    @Override
-    public void onClose(int closeCode, String message) {
-      myContainer.removePort(this);
-    }
+    private static class MyWebSocket implements WebSocket.OnTextMessage, RoomPort {
+        private final RoomContainer myContainer;
+        private final long myStamp;
+        private final User myUser;
 
-    @Override
-    public void onMessage(String text) {
-      myContainer.onMessage(new Message(myUser, text));
-    }
+        private volatile Connection myConnection;
 
-    @Override
-    public void send(Message message) {
-      try {
-        myConnection.sendMessage(MessageSerializer.toJson(message));
-      } catch (Throwable t) {
-        connectionBroken();
-      }
-    }
+        MyWebSocket(RoomContainer container, long stamp, User user) {
+            myContainer = container;
+            myStamp = stamp;
+            myUser = user;
+        }
 
-    @Override
-    public User getUser() {
-      return myUser;
-    }
+        @Override
+        public void onOpen(Connection connection) {
+            myConnection = connection;
+            myContainer.addPort(this);
 
-    private void connectionBroken() {
-      if (myConnection != null && myConnection.isOpen()) {
-        myConnection.close();
-        myConnection = null;
-      }
+            List<Message> messages = myContainer.getMessageContainer().getMessages(myStamp);
+            for (Message message : messages) {
+                send(message);
+            }
+        }
+
+        @Override
+        public void onClose(int closeCode, String message) {
+            myContainer.removePort(this);
+        }
+
+        @Override
+        public void onMessage(String text) {
+            myContainer.onMessage(new Message(myUser, text));
+        }
+
+        @Override
+        public void send(Message message) {
+            try {
+                myConnection.sendMessage(MessageSerializer.toJson(message));
+            } catch (Throwable t) {
+                connectionBroken();
+            }
+        }
+
+        @Override
+        public User getUser() {
+            return myUser;
+        }
+
+        private void connectionBroken() {
+            if (myConnection != null && myConnection.isOpen()) {
+                myConnection.close();
+                myConnection = null;
+            }
+        }
     }
-  }
 }

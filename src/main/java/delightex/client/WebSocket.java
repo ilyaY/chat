@@ -3,16 +3,16 @@ package delightex.client;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class WebSocket {
-  private JavaScriptObject myWebSocket;
-  private String myUrl;
+    private JavaScriptObject myWebSocket;
+    private String myUrl;
 
 
-  public WebSocket(String url) {
-    myUrl = url;
-    myWebSocket = initWebSocket(myUrl);
-  }
+    public WebSocket(String url) {
+        myUrl = url;
+        myWebSocket = initWebSocket(myUrl);
+    }
 
-  private native JavaScriptObject initWebSocket(String url) /*-{
+    private native JavaScriptObject initWebSocket(String url) /*-{
       var ws = new $wnd.WebSocket(url);
 
       var javaWebSocket = this;
@@ -35,24 +35,24 @@ public class WebSocket {
       return ws;
   }-*/;
 
-  public native void send(String message) /*-{
-      this.@delightex.client.WebSocket::myWebSocket.send(message);
+    public native void send(String message) /*-{
+      this.@delightex.client.WebSocket::myWebSocket.sendChatMessage(message);
   }-*/;
 
-  public native void close() /*-{
+    public native void close() /*-{
       this.@delightex.client.WebSocket::myWebSocket.close();
   }-*/;
 
-  protected void callOnClose(String reason) {
-  }
+    protected void callOnClose(String reason) {
+    }
 
-  protected void callOnError() {
-  }
+    protected void callOnError() {
+    }
 
-  protected void callOnMessage(String message) {
-  }
+    protected void callOnMessage(String message) {
+    }
 
-  protected void callOnOpen() {
-  }
+    protected void callOnOpen() {
+    }
 }
 

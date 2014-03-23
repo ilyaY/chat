@@ -5,8 +5,8 @@
 
     <ui:style>
         .wrapper {
-            padding: 16px;
-            background-color: #868686;
+        padding: 16px;
+        background-color: #868686;
         }
 
         .right {

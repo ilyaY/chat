@@ -4,27 +4,27 @@
              xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'>
     <ui:style>
         .wrapper {
-            z-index: 2;
+        z-index: 2;
         }
 
         .wrapper a {
-            display: block;
-            color: black;
-            padding: 4px 8px;
-            cursor: pointer;
+        display: block;
+        color: black;
+        padding: 4px 8px;
+        cursor: pointer;
         }
 
         .wrapper a:hover {
-            text-decoration: none;
-            background-color: #eee;
+        text-decoration: none;
+        background-color: #eee;
         }
 
         .wrapper a:not(:last-child){
-            border-bottom: 1px solid #999;
+        border-bottom: 1px solid #999;
         }
 
         .wrapper a.deleteAnchor {
-            color: #DB7B80;
+        color: #DB7B80;
         }
     </ui:style>
     <g:HTMLPanel styleName="{style.wrapper}">

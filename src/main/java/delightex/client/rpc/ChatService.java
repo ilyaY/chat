@@ -9,15 +9,17 @@ import java.util.Set;
 @RemoteServiceRelativePath("ChatService")
 public interface ChatService extends RemoteService {
 
-  public static class App {
-    private static final ChatServiceAsync ourInstance = (ChatServiceAsync) GWT.create(ChatService.class);
+    public static class App {
+        private static final ChatServiceAsync ourInstance = (ChatServiceAsync) GWT.create(ChatService.class);
 
-    public static ChatServiceAsync getInstance() {
-      return ourInstance;
+        public static ChatServiceAsync getInstance() {
+            return ourInstance;
+        }
     }
-  }
 
-  Set<String> getRooms();
-  void login(String name);
-  String addRoom(String name);
+    Set<String> getRooms();
+
+    void login(String name);
+
+    String addRoom(String name);
 }

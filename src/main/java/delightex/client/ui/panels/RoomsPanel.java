@@ -109,7 +109,6 @@ public class RoomsPanel extends SimplePanel {
                 refreshChats();
             }
         };
-
         myTimer.scheduleRepeating(2000);
     }
 

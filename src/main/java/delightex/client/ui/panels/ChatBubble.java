@@ -70,7 +70,7 @@ public class ChatBubble extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 //ignore event, if anchor currenty active
-                if(optionsAnchorPressed){
+                if (optionsAnchorPressed) {
                     event.stopPropagation();
                     return;
                 }

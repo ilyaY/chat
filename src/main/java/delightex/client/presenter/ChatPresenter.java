@@ -5,7 +5,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.URL;
@@ -13,8 +12,6 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import delightex.client.ChatAppController;
 import delightex.client.WebSocket;
@@ -32,17 +29,23 @@ import java.util.Set;
 import static delightex.client.model.MessageDeserializer.fromJson;
 
 public class ChatPresenter {
+
     private ChatAppController myAppController;
+
     private ChatServiceAsync myChatService = ChatService.App.getInstance();
     private WebSocket mySocket;
+    private long myLastStamp;
+
     private String myUserName;
 
     private MessageOptionsPopup popup;
     private boolean popupVisible = false;
+    private Command cleanUpPopupSourceAnchorStyling;
 
     public ChatPresenter(ChatAppController appController) {
         this.myAppController = appController;
 
+        // Close popup on resizing
         Window.addResizeHandler(new ResizeHandler() {
             @Override
             public void onResize(ResizeEvent event) {
@@ -55,12 +58,12 @@ public class ChatPresenter {
         RootPanel.get().addHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-               if(popupVisible){
-                   // If click was outside of popup, hide popup
-                   if(popup != null && !popup.getElement().isOrHasChild(Element.as(event.getNativeEvent().getEventTarget()))){
-                       hideMessageOptionsMenu();
-                   }
-               }
+                if (popupVisible) {
+                    // If click was outside of popup, hide popup
+                    if (popup != null && !popup.getElement().isOrHasChild(Element.as(event.getNativeEvent().getEventTarget()))) {
+                        hideMessageOptionsMenu();
+                    }
+                }
             }
 
         }, ClickEvent.getType());
@@ -115,8 +118,7 @@ public class ChatPresenter {
         myChatService.getRooms(asyncCallback);
     }
 
-    private long myLastStamp;
-    public void connect(final String myRoom, final Command onConnected) {
+    public void connectToChatRoom(final String myRoom, final Command onConnected) {
         String baseUrl = GWT.getHostPageBaseURL();
 
         String webSocketUrl = baseUrl.replace("http", "ws") + "wschat";
@@ -133,7 +135,7 @@ public class ChatPresenter {
             protected void callOnClose(String reason) {
                 mySocket = null;
                 myLastStamp = new Date().getTime();
-                connect(myRoom, onConnected);
+                connectToChatRoom(myRoom, onConnected);
             }
 
             @Override
@@ -155,17 +157,15 @@ public class ChatPresenter {
         };
     }
 
-    public void send(String msg) {
+    public void sendChatMessage(String msg) {
         mySocket.send(msg);
     }
 
-    private Command cleanUpSourceAnchorStyling;
-
-    public void openMessageOptionsMenu(final int left, final int top, Command cleanUpSourceAnchorStyling){
-        if(popup != null){
+    public void openMessageOptionsMenu(final int left, final int top, Command cleanUpSourceAnchorStyling) {
+        if (popup != null) {
             hideMessageOptionsMenu();
         }
-        this.cleanUpSourceAnchorStyling = cleanUpSourceAnchorStyling;
+        this.cleanUpPopupSourceAnchorStyling = cleanUpSourceAnchorStyling;
         popup = new MessageOptionsPopup();
 //        popup.setWidget(new HTML("Edit Statement<hr/>Delete Statement"));
         popup.show();
@@ -178,11 +178,11 @@ public class ChatPresenter {
         });
     }
 
-    public void hideMessageOptionsMenu(){
-        if(popup != null){
+    public void hideMessageOptionsMenu() {
+        if (popup != null) {
             popup.hide();
-            if(cleanUpSourceAnchorStyling != null){
-                cleanUpSourceAnchorStyling.execute();
+            if (cleanUpPopupSourceAnchorStyling != null) {
+                cleanUpPopupSourceAnchorStyling.execute();
             }
         }
         popupVisible = false;

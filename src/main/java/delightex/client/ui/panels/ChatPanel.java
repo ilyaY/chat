@@ -43,8 +43,6 @@ public class ChatPanel extends Composite {
 
     @UiField
     DockLayoutPanel wrapper;
-    //    @UiField
-//    ScrollPanel messagePanelWrapper;
     @UiField
     FlowPanel messagePanel;
 
@@ -76,26 +74,12 @@ public class ChatPanel extends Composite {
         this.presenter = presenter;
         myRoom = roomName;
         IconButton userChatButton = new IconButton("fa-comments", "User Chat");
-//        userChatButton.addClickHandler(new ClickHandler() {
-//            @Override
-//            public void onClick(ClickEvent event) {
-//                headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 2px 30px 0 #545454");
-//                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px -2px 30px 0 #545454");
-//            }
-//        });
         IconButton figureChatButton = new IconButton("fa-group", "Figure Chat");
-//        figureChatButton.addClickHandler(new ClickHandler() {
-//            @Override
-//            public void onClick(ClickEvent event) {
-//                headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
-//                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
-//            }
-//        });
         userChatButton.setPressedStyle();
         toggleButton = new ToggleIconButton(userChatButton, figureChatButton);
         this.initWidget(ourUiBinder.createAndBindUi(this));
 
-        presenter.connect(roomName, new Command() {
+        presenter.connectToChatRoom(roomName, new Command() {
             @Override
             public void execute() {
                 //Socket opened
@@ -122,20 +106,20 @@ public class ChatPanel extends Composite {
             @Override
             public void onKeyDown(KeyDownEvent event) {
                 if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-                    if(!messageBox.getValue().isEmpty()){
+                    if (!messageBox.getValue().isEmpty()) {
                         Console.log("SEND");
                         send(messageBox.getValue());
                         afterSendCleanUp.schedule(10);
                     }
-                   Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-                       @Override
-                       public void execute() {
-                           messageBox.setValue(null);
-                           messageBox.setFocus(true);
-                           fixScrolling();
-                       }
-                   });
-                   event.stopPropagation();
+                    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+                        @Override
+                        public void execute() {
+                            messageBox.setValue(null);
+                            messageBox.setFocus(true);
+                            fixScrolling();
+                        }
+                    });
+                    event.stopPropagation();
                 }
                 afterInputResize.schedule(50);
             }
@@ -153,42 +137,6 @@ public class ChatPanel extends Composite {
             }
         });
 
-//        Window.addResizeHandler(new ResizeHandler() {
-//            @Override
-//            public void onResize(ResizeEvent event) {
-//                if(messagePanel.getOffsetHeight() > wrapper.get.getOffsetHeight()){
-//                    messagePanel.addStyleName(style.scrollable());
-//                }
-//            }
-//        });
-
-        //Hack to access DockLayoutPanel wrappers style
-        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-            @Override
-            public void execute() {
-                headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 1px 30px 0 #545454");
-                headingWrapper.getElement().getParentElement().getStyle().setProperty("zIndex", "2");
-//                headingWrapper.getElement().getParentElement().getStyle().setProperty("borderBottom", "1px solid #636363");
-                inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px -1px 30px 0 #545454");
-                inputWrapper.getElement().getParentElement().getStyle().setProperty("zIndex", "2");
-//                inputWrapper.getElement().getParentElement().getStyle().setProperty("borderTop", "1px solid #636363");
-            }
-        });
-
-//        toggleShadow.addClickHandler(new ClickHandler() {
-//            @Override
-//            public void onClick(ClickEvent event) {
-//                if(boxShadowVisible){
-//                    headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
-//                    inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "none");
-//                } else {
-//                    headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 2px 30px 0 #545454");
-//                    inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px -2px 30px 0 #545454");
-//                }
-//                boxShadowVisible = !boxShadowVisible;
-//            }
-//        });
-
         final Timer afterResizeTimer = new Timer() {
             @Override
             public void run() {
@@ -204,8 +152,18 @@ public class ChatPanel extends Composite {
         });
     }
 
+    @Override
+    public void onAttach() {
+        super.onAttach();
+        //Hack to access DockLayoutPanel wrappers style
+        headingWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px 1px 30px 0 #545454");
+        headingWrapper.getElement().getParentElement().getStyle().setProperty("zIndex", "2");
+        inputWrapper.getElement().getParentElement().getStyle().setProperty("boxShadow", "0px -1px 30px 0 #545454");
+        inputWrapper.getElement().getParentElement().getStyle().setProperty("zIndex", "2");
+    }
+
     private void send(String text) {
-        presenter.send(text);
+        presenter.sendChatMessage(text);
     }
 
     private void fixScrolling() {

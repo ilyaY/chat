@@ -1,23 +1,23 @@
 package delightex.client.model;
 
 public class Room {
-  private final String myName;
-  private volatile long myLastActiveStamp;
+    private final String myName;
+    private volatile long myLastActiveStamp;
 
-  public Room(String name) {
-    myName = name;
-    activate();
-  }
+    public Room(String name) {
+        myName = name;
+        activate();
+    }
 
-  public void activate() {
-    myLastActiveStamp = System.currentTimeMillis();
-  }
+    public void activate() {
+        myLastActiveStamp = System.currentTimeMillis();
+    }
 
-  public String getName() {
-    return myName;
-  }
+    public String getName() {
+        return myName;
+    }
 
-  public long getStamp() {
-    return myLastActiveStamp;
-  }
+    public long getStamp() {
+        return myLastActiveStamp;
+    }
 }
