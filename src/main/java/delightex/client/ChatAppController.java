@@ -59,7 +59,7 @@ public class ChatAppController implements EntryPoint {
 
          /* Create Content */
         ChatPresenter chatPresenter = new ChatPresenter(this);
-        setSidebarContent(new LoginPanel(chatPresenter));
+        chatPresenter.init();
     }
 
     public void setSidebarContent(Widget sidebarContent) {

@@ -146,8 +146,7 @@
         <g:FlowPanel ui:field="subBubbleList" styleName="{style.messageWrapper}">
             <g:HTMLPanel>
                 <g:Anchor ui:field="optionsAnchor" styleName="{style.optionsAnchor}">
-                    <i class="fa fa-cog"></i>
-                    <i class="fa fa-angle-up {style.angleUp}"></i>
+                    <i class="fa fa-cog"></i><i class="fa fa-angle-up {style.angleUp}"></i>
                 </g:Anchor>
                 <g:HTML ui:field="userName" styleName="{style.userName}"></g:HTML>
                 <g:HTML ui:field="message"></g:HTML>

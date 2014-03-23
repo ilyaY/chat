@@ -19,6 +19,7 @@ import delightex.client.model.Message;
 import delightex.client.rpc.ChatService;
 import delightex.client.rpc.ChatServiceAsync;
 import delightex.client.ui.panels.ChatPanel;
+import delightex.client.ui.panels.LoginPanel;
 import delightex.client.ui.panels.MessageOptionsPopup;
 import delightex.client.ui.panels.RoomsPanel;
 import delightex.client.util.Console;
@@ -67,6 +68,10 @@ public class ChatPresenter {
             }
 
         }, ClickEvent.getType());
+    }
+
+    public void  init(){
+        myAppController.setSidebarContent(new LoginPanel(this));
     }
 
     public void doLogin(final String name) {

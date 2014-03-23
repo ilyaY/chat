@@ -4,21 +4,24 @@
     <ui:style>
 
         .sidebar {
-        background-color: #868686;
+            background-color: #868686;
         }
 
         .canvas {
-        background-color: #C5C5C5;
+            background-color: #aaa;
+            text.align: center;
         }
 
     </ui:style>
 
     <g:DockLayoutPanel unit="PX" ui:field="wrapper">
         <g:west size="256">
-            <g:HTML ui:field="sidebar" styleName="{style.sidebar}">Sidebar</g:HTML>
+            <g:HTML ui:field="sidebar" styleName="{style.sidebar}"></g:HTML>
         </g:west>
         <g:center>
-            <g:HTML styleName="{style.canvas}" ui:field="mainContentPanel">Canvas</g:HTML>
+            <g:HTML styleName="{style.canvas}" ui:field="mainContentPanel">
+                <img src='/img/canvas.png' />
+            </g:HTML>
         </g:center>
     </g:DockLayoutPanel>
 </ui:UiBinder>

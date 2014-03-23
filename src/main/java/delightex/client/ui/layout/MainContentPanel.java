@@ -9,9 +9,9 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MainContentPanel extends Composite {
-    private static ChatListUiBinder ourUiBinder = GWT.create(ChatListUiBinder.class);
+    private static MainContentUiBinder ourUiBinder = GWT.create(MainContentUiBinder.class);
 
-    interface ChatListUiBinder extends UiBinder<DockLayoutPanel, MainContentPanel> {
+    interface MainContentUiBinder extends UiBinder<DockLayoutPanel, MainContentPanel> {
     }
 
     private DockLayoutPanel wrapper;
